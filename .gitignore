@@ -12,3 +12,16 @@ __pycache__/
 data/
 data-export/
 signvoice-data*.zip
+# Secrets and local data
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+user_samples/
+tts_cache/

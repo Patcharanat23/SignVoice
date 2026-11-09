@@ -207,6 +207,12 @@ async function handleAuth(req, res, user) {
 async function handleApi(req, res) {
   try {
     if (!sameOrigin(req)) return json(res, 403, { error: 'Cross-site request blocked' });
+    // Permission checks below compare the raw URL, and fetch() would collapse "/x/../finetune"
+    // (or %2e%2e, %2f, backslashes) before it reaches the ML service. Only canonical paths pass.
+    const rawPath = req.url.split('?')[0];
+    if (/%2e|%2f|%5c|\\/i.test(rawPath) || new URL(req.url, 'http://localhost').pathname !== rawPath) {
+      return json(res, 400, { error: 'Invalid path' });
+    }
     const user = auth.sessionUser(sessionToken(req));
     if (req.url.startsWith('/api/auth/') || req.url.startsWith('/api/admin/')) return await handleAuth(req, res, user);
     if (!user) return json(res, 401, { error: 'กรุณาเข้าสู่ระบบ' });

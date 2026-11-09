@@ -26,6 +26,7 @@ Accounts are handled in `auth.mjs` using only Node.js built-ins (`node:crypto`, 
 | XSS | Admin page renders user data with `textContent` only; CSP forbids inline scripts | Malicious display names |
 | Headers | CSP, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy: no-referrer`, `Permissions-Policy`, HSTS over HTTPS | Clickjacking, third-party scripts |
 | Request size | JSON up to 16 KB, sign clips up to 400 frames | Oversized payloads |
+| Path tricks | API paths with `..`, `%2e`, `%2f` or backslashes are rejected before any permission check | Bypassing admin checks through URL normalisation |
 | Audit | Logins, failures, lockouts and admin actions are written to `auth_log` and shown on the admin page | After-the-fact review |
 | Secrets | API keys only in `.env` (git-ignored); passwords are never logged | Leaked keys |
 
@@ -47,7 +48,7 @@ The microphone permission is used only to read audio output device names for the
 
 ```powershell
 npm test               # auth unit tests: hashing, policy, sessions, lockout, roles, cookies, rate limits
-npm run test:security  # 21 checks against a running server
+npm run test:security  # 25 checks against a running server
 ```
 
 Run the security test against a separate account database so test users never land in the real one:

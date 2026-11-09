@@ -36,6 +36,17 @@ check('normal user is sent away from admin.html', (await get('/admin.html', { co
 check('normal user cannot call admin API (403)', (await get('/api/admin/users', { cookie: user.cookie })).status === 403);
 check('normal user cannot change the vocabulary (403)', (await post('/api/user/words', { label: 'x_user', th: 'x' }, { cookie: user.cookie })).status === 403);
 check('normal user cannot start training (403)', (await post('/api/user/finetune', {}, { cookie: user.cookie })).status === 403);
+// fetch() normalises "/x/../y" before sending, so these go out as raw HTTP requests.
+const { request } = await import('node:http');
+const rawPost = (path, cookie) => new Promise((resolve, reject) => {
+  const u = new URL(base);
+  const r = request({ host: u.hostname, port: u.port, method: 'POST', path, headers: { cookie, origin: base, 'content-type': 'application/json', 'content-length': 2 } }, (res) => { res.resume(); resolve(res.statusCode); });
+  r.on('error', reject);
+  r.end('{}');
+});
+for (const trick of ['/api/user/x/../finetune', '/api/user/x/%2e%2e/finetune', '/api/user/x%2f..%2ffinetune', '/api/user/x/../proposals/review']) {
+  check(`dot-segment path cannot bypass admin checks: ${trick}`, (await rawPost(trick, user.cookie)) === 400);
+}
 check('admin can open the admin API', (await get('/api/admin/users', { cookie: admin.cookie })).status === 200);
 
 // CSRF
