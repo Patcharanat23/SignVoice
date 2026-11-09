@@ -1,6 +1,6 @@
 """SQLite storage for everything the app writes at run time (one file: ~/.signvoice/signvoice.db).
 
-Why SQLite (see PROJECT_SUMMARY.md): one local server, a handful of users, structured data that needs
+Why SQLite (see docs/EXPERIMENTS.md): one local server, a handful of users, structured data that needs
 querying (counts per word, correction statistics), no server to install, works offline, and the same
 SQL moves to PostgreSQL/Supabase if the app ever runs on several machines.
 

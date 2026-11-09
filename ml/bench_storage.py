@@ -14,7 +14,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
 import db  # noqa: E402
 
-FRAMES = 42  # median live clip length measured in the browser (PROJECT_SUMMARY.md)
+FRAMES = 42  # median live clip length measured in the browser (docs/EXPERIMENTS.md)
 WORDS = 20
 
 

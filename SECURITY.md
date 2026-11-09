@@ -1,63 +1,65 @@
-# ความปลอดภัยของ SignVoice
+# Security
 
-ระบบบัญชีผู้ใช้ทั้งหมดอยู่ใน `auth.mjs` (ใช้ใน `server.mjs`) และเก็บข้อมูลไว้ในไฟล์ SQLite เดียวกับข้อมูลอื่นของแอป (`~/.signvoice/signvoice.db`) จึงไม่ต้องติดตั้งแพ็กเกจเพิ่ม ทุกอย่างใช้โมดูลที่มากับ Node.js (`node:crypto`, `node:sqlite`)
+Accounts are handled in `auth.mjs` using only Node.js built-ins (`node:crypto`, `node:sqlite`). Data is stored in the app's SQLite file, `~/.signvoice/signvoice.db`.
 
-## หน้าเว็บ
+## Access
 
-| หน้า | ใครเข้าได้ |
+| Page | Who |
 |---|---|
-| `/login.html` | ทุกคน: ซ้ายแนะนำระบบ ขวาเข้าสู่ระบบ/สมัคร |
-| `/?view=speak` หน้าพูด | ผู้ใช้ที่เข้าสู่ระบบแล้ว |
-| `/` หน้าสอนท่า / คำศัพท์ | ผู้ดูแลระบบ (ผู้ใช้ทั่วไปถูกพาไปหน้าพูด) |
-| `/admin.html` | ผู้ดูแลระบบ: จัดการผู้ใช้ ดูสถิติ และบันทึกการเข้าใช้ |
+| `/login.html` | Everyone |
+| `/?view=speak` | Signed-in users |
+| `/` (teach, vocabulary) | Admins; other users are redirected to the speak view |
+| `/admin.html` | Admins: users, statistics, audit log, review queue |
 
-## มาตรการและเหตุผล
+## Measures
 
-| เรื่อง | ทำอย่างไร | ป้องกันอะไร |
+| Area | What we do | Protects against |
 |---|---|---|
-| เก็บรหัสผ่าน | **scrypt** (N=16384, r=8, p=1) + salt สุ่ม 16 ไบต์ต่อคน, เทียบด้วย `timingSafeEqual` | ฐานข้อมูลหลุดก็ยังไม่ได้รหัสผ่าน, ใช้ rainbow table ไม่ได้, เดาจากเวลาตอบไม่ได้ |
-| นโยบายรหัสผ่าน | 8–128 ตัว มีทั้งตัวอักษรและตัวเลข และห้ามมีชื่อผู้ใช้อยู่ในรหัส | รหัสที่เดาง่าย |
-| Session | token สุ่ม 32 ไบต์ เก็บเฉพาะ SHA-256 ในฐานข้อมูล, หมดอายุเมื่อไม่ใช้ 12 ชม. / สูงสุด 7 วัน, ออกจากระบบแล้วลบที่เซิร์ฟเวอร์ | ขโมย token จากฐานข้อมูล, session ค้างนาน |
-| Cookie | `HttpOnly; SameSite=Strict` (+ `Secure` เมื่อใช้ HTTPS) | สคริปต์อ่าน cookie ไม่ได้ (XSS), เว็บอื่นส่งคำขอแทนไม่ได้ (CSRF) |
-| CSRF | คำขอที่แก้ข้อมูลต้องมาจาก origin เดียวกัน (ตรวจ `Origin` / `Sec-Fetch-Site`) | เว็บอื่นหลอกให้เบราว์เซอร์ส่งคำขอ |
-| Brute force | รหัสผิดได้ 10 ครั้ง / 15 นาที / IP (ล็อกอินสำเร็จไม่นับ), สมัครได้ 5 ครั้ง / ชั่วโมง / IP, รหัสผิด 5 ครั้งติดกัน → ล็อกบัญชี 15 นาที | การเดารหัส, การสแปมสมัคร |
-| ไม่บอกใบ้ | รหัสผิดและไม่มีชื่อผู้ใช้ได้ข้อความเดียวกัน และใช้เวลาตอบใกล้กัน | การไล่หาว่ามีบัญชีใดบ้าง |
-| สิทธิ์ | ตรวจทุกคำขอที่เซิร์ฟเวอร์: API ทุกตัวต้องล็อกอิน, การแก้คำศัพท์ ตัวอย่างท่า และการเทรนต้องเป็นแอดมิน | ผู้ใช้ทั่วไปแก้โมเดลที่ทุกคนใช้ร่วมกัน |
-| XSS | หน้าแอดมินแสดงข้อมูลผู้ใช้ด้วย `textContent` เท่านั้น + Content-Security-Policy ไม่อนุญาต inline script | ชื่อที่แสดงที่มีโค้ดแฝง |
-| Header | CSP, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy: no-referrer`, `Permissions-Policy` (กล้อง/ไมค์เฉพาะเว็บนี้ ไมค์ใช้แค่อ่านชื่ออุปกรณ์เสียง ไม่อัดเสียง), HSTS เมื่อใช้ HTTPS | clickjacking, การโหลดสคริปต์จากที่อื่น |
-| ขนาดคำขอ | JSON ≤ 16 KB, คลิปท่า ≤ 400 เฟรม | ส่งข้อมูลใหญ่ให้เซิร์ฟเวอร์ล่ม |
-| บันทึก | เข้าสู่ระบบ/รหัสผิด/ล็อก/แอดมินแก้ไข เก็บในตาราง `auth_log` และดูได้ในหน้าแอดมิน | ตรวจย้อนหลัง |
-| ความลับ | API key อยู่ใน `.env` ซึ่ง git ไม่เก็บ, ไม่บันทึกรหัสผ่านลง log | key หลุดขึ้น GitHub |
+| Password storage | scrypt (N=16384, r=8, p=1), 16-byte random salt per user, compared with `timingSafeEqual` | Leaked database, rainbow tables, timing attacks |
+| Password policy | 8–128 characters, letters and digits, must not contain the username | Easy guesses |
+| Sessions | 32-byte random token, only its SHA-256 is stored; 12 h idle and 7 day maximum; deleted on logout | Token theft from the database, stale sessions |
+| Cookie | `HttpOnly; SameSite=Strict`, plus `Secure` over HTTPS | Script access (XSS), cross-site requests (CSRF) |
+| CSRF | State-changing requests must come from the same origin (`Origin` / `Sec-Fetch-Site`) | Forged requests from other sites |
+| Brute force | 10 failed logins per 15 min per IP (successful logins are not counted), 5 registrations per hour per IP, account locked for 15 min after 5 failures in a row | Password guessing, sign-up spam |
+| Enumeration | Wrong password and unknown user return the same message in similar time | Discovering which accounts exist |
+| Authorization | Checked on the server for every request; vocabulary, samples and training require admin | Regular users changing the shared model |
+| XSS | Admin page renders user data with `textContent` only; CSP forbids inline scripts | Malicious display names |
+| Headers | CSP, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy: no-referrer`, `Permissions-Policy`, HSTS over HTTPS | Clickjacking, third-party scripts |
+| Request size | JSON up to 16 KB, sign clips up to 400 frames | Oversized payloads |
+| Audit | Logins, failures, lockouts and admin actions are written to `auth_log` and shown on the admin page | After-the-fact review |
+| Secrets | API keys only in `.env` (git-ignored); passwords are never logged | Leaked keys |
 
-## การเข้ารหัสระหว่างส่งข้อมูล (HTTPS)
+The microphone permission is used only to read audio output device names for the virtual-microphone option. Nothing is recorded.
 
-- **ใช้ในเครื่อง** (`http://127.0.0.1`): ข้อมูลไม่ออกนอกเครื่อง เซิร์ฟเวอร์ฟังเฉพาะ 127.0.0.1
-- **เปิดให้คนอื่นใช้ผ่าน Cloudflare Tunnel:** Cloudflare ทำ HTTPS ให้ ทั้งระหว่างผู้ใช้กับ Cloudflare และจาก Cloudflare มาถึงเครื่องนี้ เซิร์ฟเวอร์จะรู้ว่าเป็น HTTPS เองจาก header ของ tunnel ที่ส่งมาจาก 127.0.0.1 แล้วเปิด `Secure` cookie กับ HSTS ให้อัตโนมัติ
-- **ใช้ HTTPS ตรงด้วยใบรับรองของตัวเอง:** ตั้ง `SIGNVOICE_TLS_CERT` และ `SIGNVOICE_TLS_KEY` (ไฟล์ PEM) แล้วรัน `npm start`
+## HTTPS
 
-## ผู้ดูแลระบบ
+- **Local use** (`http://127.0.0.1`): the server listens on localhost only.
+- **Cloudflare Tunnel**: Cloudflare terminates HTTPS. The server detects it from the tunnel headers (sent from 127.0.0.1) and turns on `Secure` cookies and HSTS.
+- **Your own certificate**: set `SIGNVOICE_TLS_CERT` and `SIGNVOICE_TLS_KEY` (PEM files) and run `npm start`.
 
-- **บัญชีแรกที่สมัครจะเป็นแอดมินอัตโนมัติ** ควรสมัครบัญชีของตัวเองก่อนเปิดให้คนอื่นใช้
-- ตั้ง `SIGNVOICE_ADMINS=ชื่อ1,ชื่อ2` ใน `.env` เพื่อให้ชื่อเหล่านั้นเป็นแอดมินเสมอ
-- ในหน้าแอดมิน: ตั้งหรือลดสิทธิ์, ระงับบัญชี (ตัด session ทันที), ปลดล็อก, ลบ ส่วนบัญชีของตัวเองแก้จากหน้านี้ไม่ได้ กันการเผลอลดสิทธิ์ตัวเองจนไม่มีแอดมินเหลือ
+## Admins
 
-## การทดสอบ
+- The first account to register becomes an admin. Create yours before sharing the link.
+- `SIGNVOICE_ADMINS=name1,name2` in `.env` always grants admin to those usernames.
+- Admins can promote, demote, suspend (ends sessions immediately), unlock and delete accounts. You cannot change your own account from the admin page, so the last admin cannot lock themselves out.
 
-| คำสั่ง | ตรวจอะไร | ผล |
-|---|---|---|
-| `npm test` | unit tests ของ `auth.mjs` 7 กรณี: hash, นโยบายรหัส, session, ล็อกบัญชี, สิทธิ์, cookie, rate limit | ผ่าน |
-| `npm run test:security` | 21 ข้อบนเซิร์ฟเวอร์จริง: redirect, 401/403, cookie ปลอม, CSRF, รหัสอ่อน, ข้อความเดียวกัน, body ใหญ่, header, logout, rate limit | **21/21 ผ่าน** |
+## Tests
 
-ตอนทดสอบให้ใช้ฐานข้อมูลบัญชีแยกต่างหาก เพื่อไม่ให้บัญชีทดสอบกลายเป็นแอดมินในฐานข้อมูลจริง:
+```powershell
+npm test               # auth unit tests: hashing, policy, sessions, lockout, roles, cookies, rate limits
+npm run test:security  # 21 checks against a running server
+```
+
+Run the security test against a separate account database so test users never land in the real one:
 
 ```powershell
 $env:SIGNVOICE_AUTH_DB = "$env:TEMP\signvoice-auth-test.db"; $env:PORT = 5174; $env:SIGNVOICE_ML_PORT = 8767; npm start
-# อีกหน้าต่าง
-npm run test:security   # ใช้พอร์ต 5174 เป็นค่าเริ่มต้น และจะไม่ยอมรันกับพอร์ต 5173 (เว็บจริง)
+# in another window
+npm run test:security   # defaults to port 5174 and refuses to run against 5173
 ```
 
-## ข้อจำกัด (ระดับที่ตั้งใจไว้)
+## Known limits
 
-1. Rate limit เก็บในหน่วยความจำ รีสตาร์ทเซิร์ฟเวอร์แล้วจะนับใหม่
-2. ไม่มีการยืนยันอีเมล ลืมรหัสผ่าน หรือ 2FA ถ้าลืมรหัส ให้แอดมินลบบัญชีแล้วสมัครใหม่
-3. ภาพจากกล้องไม่ถูกส่งออกจากเบราว์เซอร์ ส่งเฉพาะพิกัดจุดมือและแขนไปเซิร์ฟเวอร์ แต่ข้อความที่จะพูดจะถูกส่งไป ElevenLabs เมื่อมี API key
+- Rate limits are kept in memory and reset when the server restarts.
+- No email verification, password reset or 2FA. An admin can delete the account so the user can register again.
+- Camera video stays in the browser, but the sentence to be spoken is sent to ElevenLabs when an API key is configured.

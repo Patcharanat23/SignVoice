@@ -21,7 +21,7 @@ import train_combined as tc
 from features import T
 from train_tsl import SignNet, augment
 
-EPOCHS = 25        # held-out accuracy of the main model plateaus around epoch 25-30 (see PROJECT_SUMMARY.md)
+EPOCHS = 25        # held-out accuracy of the main model plateaus around epoch 25-30 (see docs/EXPERIMENTS.md)
 OUT = Path(__file__).resolve().parent.parent / 'docs' / 'experiments.json'
 # Feature layout after dropping the face (266 values per frame):
 COLS = {'hand_xy': slice(0, 84), 'arm_xy': slice(84, 96), 'hand_shape': slice(96, 180), 'presence': slice(180, 182), 'velocity': slice(182, 266)}

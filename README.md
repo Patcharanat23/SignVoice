@@ -1,111 +1,103 @@
 <p align="center">
-  <img src="public/brand/signvoice-logo.png" alt="SignVoice" width="320">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/signvoice-logo-white.png">
+    <img src="public/brand/signvoice-logo.png" alt="SignVoice" width="360">
+  </picture>
 </p>
 
-<p align="center"><b>แปลภาษามือไทยจากกล้องเว็บแคม → เรียงเป็นประโยค → พูดออกมาเป็นเสียง</b><br>
-ภาพจากกล้องประมวลผลบนเครื่องผู้ใช้ทั้งหมด ส่งต่อแค่ตำแหน่งจุดของมือ</p>
+<p align="center">Thai Sign Language to speech, from an ordinary webcam.</p>
 
 <p align="center">
-  <img src="public/showcase/photo-1-live.jpg" alt="ระบบอ่านมือแบบเรียลไทม์ วาดโครงมือทับภาพกล้อง" width="49%">
-  <img src="public/showcase/photo-2-sentence.jpg" alt="คำที่อ่านได้ขึ้นเป็นป้าย แล้วเรียงเป็นประโยคบนจอ" width="49%">
+  <img src="public/showcase/photo-1-live.jpg" alt="Hand landmarks drawn over the live camera" width="49%">
+  <img src="public/showcase/photo-2-sentence.jpg" alt="Recognised signs shown as chips and composed into a sentence" width="49%">
 </p>
 
-## ความสามารถ
+SignVoice reads Thai signs from a webcam, turns them into words, arranges the words into a Thai sentence and speaks it. Video never leaves the browser; only hand and arm keypoints are sent to the local server.
 
-- **หน้าพูด** (`/?view=speak`) เต็มจอ ทำท่าทีละคำแล้วลดมือ คำจะขึ้นเป็นป้าย AI เรียงเป็นประโยคภาษาไทย ผู้ใช้แก้ได้ก่อนพูด
-  - ยกมือเหนือหัวค้าง 1 วินาที = พูด
-  - ชูสองนิ้วแล้วพับลง 2 ครั้ง = ลบคำล่าสุด
-- **ส่งเสียงเข้าห้องประชุม** เลือกให้เสียงออกลำโพง หรือไมค์เสมือน (เช่น VB-Audio Cable) เพื่อใช้กับ Zoom, Meet, Teams, Discord
-- **หน้าสอนท่า** (`/`) อัดท่าใหม่หรือนำเข้าคลิปหลายไฟล์ แล้วกด "ฝึกให้จำท่า" เพื่อเทรนต่อในเครื่อง
-- **ผู้ใช้เสนอท่า แอดมินอนุมัติ** ท่าที่ผู้ใช้ทั่วไปเสนอจะรอให้แอดมินดูโครงมือก่อนนำไปเทรน
-- **บัญชีผู้ใช้และสิทธิ์** รหัสผ่านเก็บแบบ scrypt ล็อกการเข้าสู่ระบบชั่วคราวเมื่อกรอกผิดหลายครั้ง รายละเอียดใน [SECURITY.md](SECURITY.md)
-- ธีมสว่าง/มืด, คู่มือแนะนำในหน้าเว็บ, รองรับคนถนัดซ้าย
+## Features
 
-| หน้าล็อกอิน | หน้าสอนท่า | หน้าแอดมิน |
+- **Speak view** (`/?view=speak`): full-screen camera. Sign one word at a time and lower your hands between words. Raise a hand above your head for one second to speak; fold two fingers twice to delete the last word.
+- **Meeting output**: send the voice to your speakers or to a virtual microphone (for example VB-Audio Cable) for Zoom, Meet, Teams or Discord.
+- **Teach view** (`/`): record new signs or import clips, then retrain on this machine with one click.
+- **Review queue**: regular users propose signs; an admin checks the skeleton preview before they are used for training.
+- **Accounts**: scrypt password hashing, session cookies, rate limits and account lockout. See [SECURITY.md](SECURITY.md).
+- Light and dark themes, an in-app tour, left-handed signing.
+
+| Login | Teach | Admin |
 |---|---|---|
-| ![หน้าล็อกอิน](docs/screens/login.png) | ![หน้าสอนท่าและจัดคำ](docs/screens/teach.png) | ![หน้าผู้ดูแลระบบ](docs/screens/admin.png) |
+| ![Login page](docs/screens/login.png) | ![Teach view](docs/screens/teach.png) | ![Admin page](docs/screens/admin.png) |
 
-## การทำงานของระบบ
+## How it works
 
 ```mermaid
 flowchart LR
-  A[เว็บแคม] --> B[MediaPipe Hand + Pose<br/>ในเบราว์เซอร์]
-  B --> C[ตัดช่วงท่า<br/>ลดมือ = จบคำ]
-  C -->|พิกัดจุด| D[SignNet<br/>1D-CNN + Transformer]
-  D -->|คำ + ความมั่นใจ| E[Qwen3 4B ผ่าน Ollama<br/>เรียงเป็นประโยค]
-  E --> F[ผู้ใช้ตรวจ/แก้]
-  F --> G[ElevenLabs<br/>สำรอง: ThonburianTTS]
-  G --> H[ลำโพง / ไมค์เสมือน]
+  A[Webcam] --> B[MediaPipe Hand + Pose<br/>in the browser]
+  B --> C[Sign segmentation<br/>hands down = end of word]
+  C -->|keypoints| D[SignNet<br/>1D-CNN + Transformer]
+  D -->|word + confidence| E[Qwen3 4B via Ollama<br/>sentence ordering]
+  E --> F[User review]
+  F --> G[ElevenLabs<br/>fallback: ThonburianTTS]
+  G --> H[Speakers or virtual mic]
 ```
 
-| ส่วน | ไฟล์หลัก | หน้าที่ |
-|---|---|---|
-| หน้าเว็บ | `src/` (Vite) | กล้อง, MediaPipe, ตัดช่วงท่า, UI |
-| เซิร์ฟเวอร์ | `server.mjs`, `auth.mjs` | REST API, ล็อกอินและสิทธิ์, เรียก Ollama และ ElevenLabs |
-| งาน AI | `ml/service.py` | แปลท่าด้วย ONNX, เทรนต่อ (fine-tune), อ่าน/เขียนข้อมูลท่า |
-| ฐานข้อมูล | `ml/db.py` | SQLite ไฟล์เดียว `~/.signvoice/signvoice.db` (ผู้ใช้ ท่า คำ ประวัติ ผลเทรน) |
+The browser talks only to the Node server. The server checks the session, calls the Python service for recognition and training, Ollama for sentences and ElevenLabs for speech. Everything is stored in one SQLite file. Details: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-เบราว์เซอร์ไม่แตะฐานข้อมูลตรง ทุกคำขอผ่านเซิร์ฟเวอร์ Node.js ก่อน
+## Results
 
-## ผลการทดลอง
+Tested on signers the model never saw during training.
 
-ทดสอบโดยแบ่งชุดทดสอบตามคน (ผู้แสดงที่โมเดลไม่เคยเห็น)
-
-| การวัด | ผล |
+| Measure | Result |
 |---|---:|
-| แปลท่าถูก, ผู้แสดงใหม่จาก TSL-ONE (5 คน) | **86.2%** |
-| แปลท่าถูก, ผู้แสดงใหม่จาก TSL-51 | 78.8% |
-| ตัวหาจุดมือ Hand + Pose เทียบ Holistic (104 คลิป) | 80.8% / 14–19 FPS เทียบ 78.8% / 6–9 FPS |
-| เรียงประโยคถูกทุกเกณฑ์ (41 กรณี): Qwen3 4B / Gemma 3 4B / Llama 3.2 3B / ไม่ใช้ LLM | **92.7%** / 70.7% / 68.3% / 26.8% |
-| เกณฑ์ความมั่นใจ 0.35: ความแม่นของคำที่รับ | 84.9% → 90.8% |
-| เทรนเพิ่มด้วยท่ากลับซ้าย-ขวา: คนถนัดซ้าย | 20.1% → 81.4% |
+| Sign accuracy, 5 held-out TSL-ONE signers (236 classes) | **86.2%** |
+| Sign accuracy, held-out TSL-51 signer | 78.8% |
+| Sentence ordering, 41 cases: Qwen3 4B / Gemma 3 4B / Llama 3.2 3B / no LLM | **92.7%** / 70.7% / 68.3% / 26.8% |
+| Confidence threshold 0.35: precision of accepted words | 84.9% → 90.8% |
+| Mirrored training data: left-handed signers | 20.1% → 81.4% |
 
-โมเดลแปลท่าเทรนจาก TSL-51 + TSL-ONE (ผู้แสดง 32 คน) ใช้งานจริง 146 คำในชีวิตประจำวัน รายละเอียดอยู่ใน `docs/*.json` และ [MODEL_COMPARISON.md](MODEL_COMPARISON.md)
+The recogniser is trained on TSL-51 and TSL-ONE (32 signers) and uses 146 everyday words. Methods and full numbers: [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md).
 
-## ติดตั้งและรัน (Windows)
+## Getting started (Windows)
 
-ต้องมี Node.js 20+, Chrome หรือ Edge, [Ollama](https://ollama.com) และแนะนำการ์ดจอ NVIDIA ไฟล์ใหญ่ (venv, ชุดข้อมูล, โมเดล) เก็บที่ `%USERPROFILE%\.signvoice` นอกโฟลเดอร์โปรเจกต์
+Requirements: Node.js 20+, Chrome or Edge, [Ollama](https://ollama.com), and ideally an NVIDIA GPU. Large files (Python venv, datasets, models) live in `%USERPROFILE%\.signvoice`, outside the repo.
 
 ```powershell
 git clone https://github.com/Patcharanat23/SignVoice.git
 cd SignVoice
 npm ci
-npm run setup:ml              # ครั้งแรก: Python 3.12 + PyTorch, ดาวน์โหลดชุดข้อมูล แล้วเทรนโมเดล
+npm run setup:ml              # first run: Python 3.12, PyTorch, datasets, model training
 ollama pull qwen3:4b-instruct
 npm run dev                   # http://127.0.0.1:5173
 ```
 
-สร้างไฟล์ `.env` ที่โฟลเดอร์โปรเจกต์ (ไม่ถูก commit) ถ้าต้องการเสียง ElevenLabs:
+For ElevenLabs voices, create a `.env` file (it is git-ignored):
 
 ```env
 ELEVENLABS_API_KEY=...
 ```
 
-ไม่มีคีย์ก็ใช้งานได้ ระบบจะใช้เสียง ThonburianTTS ในเครื่องแทน บัญชีแรกที่สมัครจะเป็นผู้ดูแลระบบ
+Without a key the app uses ThonburianTTS on your machine. The first account to register becomes the admin.
 
-ใช้งานจริงแบบ production: `npm run build` แล้ว `npm start` ส่วนการย้ายไปเครื่องอื่นหรือเปิดเป็น host ดู [DOCKER.md](DOCKER.md)
+Production: `npm run build`, then `npm start`. To move the app to another machine or host it for others, see [DOCKER.md](DOCKER.md).
 
-## ทดสอบ
+## Tests
 
 ```powershell
 npm test               # unit tests
-npm run test:security  # ตรวจระบบล็อกอินและสิทธิ์
-npm run eval:tsl       # วัดความแม่นยำผ่านเบราว์เซอร์จริง
+npm run test:security  # login, permissions and headers against a running server
+npm run eval:tsl       # recognition accuracy through a real browser
 ```
 
-## ข้อจำกัด
+## Limitations
 
-1. แปลทีละคำ (isolated sign) ต้องลดมือระหว่างคำ ยังแปลต่อเนื่องทั้งประโยคไม่ได้
-2. ทดสอบกับผู้แสดงใหม่ 6 คน ยังไม่ได้ทดสอบกับผู้ใช้ภาษามือจริงจำนวนมาก
-3. ท่าที่คล้ายกันยังสับสนได้ จึงให้ผู้ใช้ตรวจประโยคก่อนพูดเสมอ
-4. ชุดข้อมูลและโมเดลเสียงบางตัวใช้สัญญาอนุญาต CC BY-NC-SA 4.0 ใช้เพื่อการศึกษาเท่านั้น ดู [LICENSES.md](LICENSES.md)
+- Isolated signs only. You lower your hands between words; continuous signing is not supported yet.
+- Evaluated on 6 unseen signers, not yet with Deaf users in daily use.
+- Similar signs still get confused (for example น้า and อา), so the sentence is always shown for review before it is spoken.
+- TSL-51, TSL-ONE and ThonburianTTS are licensed for non-commercial use. See [LICENSES.md](LICENSES.md).
 
-## เอกสารเพิ่มเติม
+## Team
 
-- [presentation/SYSTEM_GUIDE.md](presentation/SYSTEM_GUIDE.md) อธิบายระบบทั้งหมด
-- [docs/THAI_SIGN_DATASETS.md](docs/THAI_SIGN_DATASETS.md) ชุดข้อมูลภาษามือไทย
-- [SECURITY.md](SECURITY.md) ระบบความปลอดภัย
-- [DOCKER.md](DOCKER.md) รันด้วย Docker
+Advanced Topics in Computer Software, Rajamangala University of Technology Thanyaburi (RMUTT)
 
-โปรเจกต์รายวิชา Advanced Topics in Computer Software, RMUTT
-พัชรณัฏฐ์ บุตรพลอย · สิรวิชญ์ ศิริสลุง · กฤษณพงศ์ พรภู่
+- พัชรณัฏฐ์ บุตรพลอย
+- สิรวิชญ์ ศิริสลุง
+- กฤษณพงศ์ พรภู่
