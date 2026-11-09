@@ -1,0 +1,41 @@
+# SignVoice host setup.
+#   1. Put the exported data in ./data (see DOCKER.md) and the API key in .env
+#   2. docker compose up -d --build
+#   3. Open http://localhost:5173
+# NVIDIA GPU for the LLM: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d --build
+services:
+  app:
+    build: .
+    image: signvoice:latest
+    ports:
+      - "127.0.0.1:5173:5173"    # this computer only; share it with Cloudflare Tunnel (see DOCKER.md)
+    volumes:
+      - ./data:/data            # database, accounts, trained models, voice cache
+    env_file:
+      - path: .env
+        required: false         # ELEVENLABS_API_KEY / ELEVENLABS_VOICE_ID / SIGNVOICE_ADMINS
+    environment:
+      OLLAMA_URL: http://ollama:11434
+      SIGNVOICE_TRUST_PROXY: "1"  # visitor IP / HTTPS come from the tunnel's headers
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+
+  # One-shot: downloads the sentence model the app uses (about 2.5 GB, first start only).
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "sleep 3; ollama pull qwen3:4b-instruct"]
+    restart: "no"
+
+volumes:
+  ollama:

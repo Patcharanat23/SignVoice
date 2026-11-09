@@ -1,0 +1,34 @@
+{
+  "classes": 236,
+  "train_clips": 45198,
+  "deploy": false,
+  "test_signers_tslone": [
+    "04",
+    "09",
+    "15",
+    "21",
+    "27"
+  ],
+  "tslone_heldout_clips": 666,
+  "tslone_heldout_top1": 0.8618618618618619,
+  "tslone_heldout_top5": 0.9534534534534534,
+  "tsl51_user_top1": 0.7879341864716636,
+  "tsl51_user_top5": 0.9122486288848263,
+  "tslone_top_confusions": [
+    "ธ_tslone -> ฮ_tslone: 2",
+    "เล่นสนุก_tslone -> เก้า_tslone: 2",
+    "ยูโด_tslone -> เปตอง_tslone: 2",
+    "ทวดชาย_tslone -> ปู่_tslone: 2",
+    "ปู่_tslone -> ป้า_tslone: 2",
+    "น้า_tslone -> อา_tslone: 2",
+    "วัดพระธาตุพนม_tslone -> พระปฐมเจดีย์_tslone: 1",
+    "วอลเลย์บอล_tslone -> เซ็นทรัล_tslone: 1",
+    "ณ_tslone -> แฟน_var_1: 1",
+    "อา_tslone -> น้า_tslone: 1",
+    "ป้า_tslone -> ปู่_tslone: 1",
+    "ป้า_tslone -> ผู้หญิง_tslone: 1",
+    "ลูก_tslone -> โบว์ลิ่ง_tslone: 1",
+    "มวยปล้ำ_tslone -> สระอี_tslone: 1",
+    "มวยปล้ำ_tslone -> ฟุตบอล_tslone: 1"
+  ]
+}

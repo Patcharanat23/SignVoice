@@ -1,0 +1,13 @@
+{
+ "_note": "English names for the TSL-51 words (TSL-ONE words already carry their English gloss). Keyed by the Thai word before the first underscore.",
+ "กรุงเทพ": "Bangkok", "กลัว": "afraid", "กิน": "eat", "ขนมปัง": "bread", "ขอบคุณ": "thank you",
+ "ขอโทษ": "sorry", "ข้าว": "rice", "คุณ": "you", "ง่วง": "sleepy", "ฉัน": "I", "ชอบ": "like",
+ "ชื่อ": "name", "ดี": "good", "ด้วยกัน": "together", "ตลาด": "market", "ถาม": "ask",
+ "ทำงาน": "work", "ทำไม": "why", "ที่ไหน": "where", "น้อง": "younger sibling", "บ้าน": "home",
+ "พรุ่งนี้": "tomorrow", "พี่": "older sibling", "ภาษามือ": "sign language", "ยาย": "grandmother",
+ "ร้อน": "hot", "วันนี้": "today", "วันหยุด": "holiday", "สบายดี": "fine", "สวัสดี": "hello",
+ "หูหนวก": "deaf", "อยู่บ้าน": "stay home", "อย่า": "don't", "อะไร": "what", "เกิด": "born",
+ "เช้า": "morning", "เที่ยว": "go out", "เรียก": "call", "เรียน": "study", "เหงา": "lonely",
+ "เหนื่อย": "tired", "แต่งงาน": "marry", "แฟน": "partner", "แมว": "cat", "แม่": "mother",
+ "โกรธ": "angry", "โรงเรียน": "school", "โสด": "single", "ไข่": "egg", "ไป": "go", "null": "(no sign)"
+}

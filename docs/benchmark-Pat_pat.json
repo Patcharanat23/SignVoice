@@ -1,0 +1,30 @@
+{
+ "environment": {
+  "computer": "Pat_pat",
+  "os": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.10",
+  "torch": "2.14.1+cu126",
+  "cuda": "12.6",
+  "cpu": "AMD Ryzen 7 4800H with Radeon Graphics",
+  "cpu_threads": 16,
+  "ram_gb": 15.4,
+  "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+  "gpu_vram_gb": 6.0,
+  "gpu_driver": "581.57"
+ },
+ "sign_model": {
+  "onnx_cpu_ms_per_clip": 0.73,
+  "feature_extraction_ms_per_clip": 0.5,
+  "heldout_tslone_top1": 0.8619,
+  "heldout_clips": 666
+ },
+ "training": {
+  "device": "cuda",
+  "train_ms_per_step": 22.26,
+  "est_minutes_for_40_epochs": 3.0
+ },
+ "llm": {
+  "llm_first_ms": 7512,
+  "llm_warm_median_ms": 144
+ }
+}

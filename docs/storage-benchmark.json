@@ -1,0 +1,30 @@
+{
+ "frames_per_sample": 42,
+ "words": 20,
+ "results": {
+  "100": {
+   "files_save_ms_per_sample": 2.48,
+   "files_count_ms": 3.84,
+   "files_load_all_ms": 71.28,
+   "files_disk_mb": 13.1,
+   "files_on_disk": 100,
+   "sqlite_save_ms_per_sample": 1.86,
+   "sqlite_count_ms": 0.03,
+   "sqlite_load_all_ms": 41.25,
+   "sqlite_disk_mb": 13.1,
+   "sqlite_files_on_disk": 1
+  },
+  "2000": {
+   "files_save_ms_per_sample": 2.41,
+   "files_count_ms": 12.17,
+   "files_load_all_ms": 1442.56,
+   "files_disk_mb": 261.2,
+   "files_on_disk": 2000,
+   "sqlite_save_ms_per_sample": 2.12,
+   "sqlite_count_ms": 0.16,
+   "sqlite_load_all_ms": 864.04,
+   "sqlite_disk_mb": 261.8,
+   "sqlite_files_on_disk": 1
+  }
+ }
+}

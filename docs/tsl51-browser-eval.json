@@ -1,0 +1,739 @@
+{
+ "summary": {
+  "clips": 104,
+  "accuracy_all": 0.7884615384615384,
+  "accuracy_signs": 0.7941176470588235,
+  "null_clips_without_word": "1/2",
+  "no_segment": 0
+ },
+ "rows": [
+  {
+   "expected": "กรุงเทพ",
+   "predicted": "เช้า",
+   "prob": 0.8085123300552368,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "กรุงเทพ",
+   "predicted": "เช้า",
+   "prob": 0.7365402579307556,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "กลัว",
+   "predicted": "กลัว",
+   "prob": 0.8519319295883179,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "กลัว",
+   "predicted": null,
+   "prob": 0.3131151497364044,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "กิน",
+   "predicted": "กิน",
+   "prob": 0.7663182616233826,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "กิน",
+   "predicted": "กิน",
+   "prob": 0.8681663870811462,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ขนมปัง",
+   "predicted": "ขนมปัง",
+   "prob": 0.8447487950325012,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ขนมปัง",
+   "predicted": "ขนมปัง",
+   "prob": 0.8601658344268799,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ขอบคุณ",
+   "predicted": "ขอบคุณ",
+   "prob": 0.9215689301490784,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ขอบคุณ",
+   "predicted": "ขอบคุณ",
+   "prob": 0.9247398376464844,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ขอโทษ",
+   "predicted": "โรงเรียน",
+   "prob": 0.7614758014678955,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ขอโทษ",
+   "predicted": "โรงเรียน",
+   "prob": 0.7022206783294678,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ข้าว",
+   "predicted": "ข้าว",
+   "prob": 0.9200301766395569,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ข้าว",
+   "predicted": "ข้าว",
+   "prob": 0.7209380269050598,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "คุณ",
+   "predicted": null,
+   "prob": 0.32509690523147583,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "คุณ",
+   "predicted": "แฟน",
+   "prob": 0.526647686958313,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ง่วง",
+   "predicted": "บ้าน",
+   "prob": 0.5301536917686462,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ง่วง",
+   "predicted": "บ้าน",
+   "prob": 0.857947051525116,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ฉัน",
+   "predicted": null,
+   "prob": 0.32163742184638977,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ฉัน",
+   "predicted": "ฉัน",
+   "prob": 0.8260440826416016,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ฉัน",
+   "predicted": null,
+   "prob": 0.26842430233955383,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ฉัน",
+   "predicted": "ฉัน",
+   "prob": 0.8628088235855103,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ชอบ",
+   "predicted": "ชอบ",
+   "prob": 0.5188022255897522,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ชอบ",
+   "predicted": "ชอบ",
+   "prob": 0.7256943583488464,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ชื่อ",
+   "predicted": "ชื่อ",
+   "prob": 0.9099363684654236,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ชื่อ",
+   "predicted": "ชื่อ",
+   "prob": 0.9154101610183716,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ดี",
+   "predicted": "ดี",
+   "prob": 0.9213091135025024,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ดี",
+   "predicted": "ดี",
+   "prob": 0.9114046096801758,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ด้วยกัน",
+   "predicted": "เที่ยว",
+   "prob": 0.47124066948890686,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ด้วยกัน",
+   "predicted": "ด้วยกัน",
+   "prob": 0.4447513520717621,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ตลาด",
+   "predicted": "เช้า",
+   "prob": 0.7597227692604065,
+   "segments": 2,
+   "ok": false
+  },
+  {
+   "expected": "ตลาด",
+   "predicted": "ตลาด",
+   "prob": 0.3883160650730133,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ถาม",
+   "predicted": "แม่",
+   "prob": 0.41028353571891785,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ถาม",
+   "predicted": "อะไร",
+   "prob": 0.5732811093330383,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "ทำงาน",
+   "predicted": "ทำงาน",
+   "prob": 0.9034396409988403,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ทำงาน",
+   "predicted": "ทำงาน",
+   "prob": 0.9159942865371704,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ทำไม",
+   "predicted": "ทำไม",
+   "prob": 0.9068729281425476,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ทำไม",
+   "predicted": "ทำไม",
+   "prob": 0.5606003403663635,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ที่ไหน",
+   "predicted": "ที่ไหน",
+   "prob": 0.6786625385284424,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ที่ไหน",
+   "predicted": "ที่ไหน",
+   "prob": 0.8043262958526611,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "น้อง",
+   "predicted": "อะไร",
+   "prob": 0.8199763298034668,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "น้อง",
+   "predicted": "อะไร",
+   "prob": 0.805977463722229,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "บ้าน",
+   "predicted": "บ้าน",
+   "prob": 0.8778554201126099,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "บ้าน",
+   "predicted": "บ้าน",
+   "prob": 0.8825850486755371,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "พรุ่งนี้",
+   "predicted": "พรุ่งนี้",
+   "prob": 0.8252303600311279,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "พรุ่งนี้",
+   "predicted": "พรุ่งนี้",
+   "prob": 0.8824387192726135,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "พี่",
+   "predicted": "พี่",
+   "prob": 0.9033486843109131,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "พี่",
+   "predicted": "พี่",
+   "prob": 0.914391279220581,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ภาษามือ",
+   "predicted": "ภาษามือ",
+   "prob": 0.8430749773979187,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ภาษามือ",
+   "predicted": "ภาษามือ",
+   "prob": 0.9107151031494141,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ยาย",
+   "predicted": "ยาย",
+   "prob": 0.8803991079330444,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ยาย",
+   "predicted": "ยาย",
+   "prob": 0.8922514319419861,
+   "segments": 2,
+   "ok": true
+  },
+  {
+   "expected": "ร้อน",
+   "predicted": "ร้อน",
+   "prob": 0.8881078958511353,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ร้อน",
+   "predicted": "ร้อน",
+   "prob": 0.7859221696853638,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "วันนี้",
+   "predicted": "วันนี้",
+   "prob": 0.8495433926582336,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "วันนี้",
+   "predicted": "วันนี้",
+   "prob": 0.8707982897758484,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "วันหยุด",
+   "predicted": "วันหยุด",
+   "prob": 0.8973971009254456,
+   "segments": 2,
+   "ok": true
+  },
+  {
+   "expected": "วันหยุด",
+   "predicted": "วันหยุด",
+   "prob": 0.8981472253799438,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "สบายดี",
+   "predicted": "สบายดี",
+   "prob": 0.9203877449035645,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "สบายดี",
+   "predicted": "สบายดี",
+   "prob": 0.9242740869522095,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "สวัสดี",
+   "predicted": "สวัสดี",
+   "prob": 0.8719562292098999,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "สวัสดี",
+   "predicted": "สวัสดี",
+   "prob": 0.9021939039230347,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "หูหนวก",
+   "predicted": "หูหนวก",
+   "prob": 0.8549230694770813,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "หูหนวก",
+   "predicted": "หูหนวก",
+   "prob": 0.8659260272979736,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "อยู่บ้าน",
+   "predicted": "อยู่บ้าน",
+   "prob": 0.8853606581687927,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "อยู่บ้าน",
+   "predicted": "อยู่บ้าน",
+   "prob": 0.8208256959915161,
+   "segments": 2,
+   "ok": true
+  },
+  {
+   "expected": "อย่า",
+   "predicted": "อย่า",
+   "prob": 0.8980433940887451,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "อย่า",
+   "predicted": "อย่า",
+   "prob": 0.770135223865509,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "อะไร",
+   "predicted": "ที่ไหน",
+   "prob": 0.8903105854988098,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "อะไร",
+   "predicted": "ที่ไหน",
+   "prob": 0.5682924389839172,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "เกิด",
+   "predicted": "ร้อน",
+   "prob": 0.534360408782959,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "เกิด",
+   "predicted": null,
+   "prob": 0.18139150738716125,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": "เช้า",
+   "predicted": "เช้า",
+   "prob": 0.9064224362373352,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เช้า",
+   "predicted": "เช้า",
+   "prob": 0.9171574115753174,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เที่ยว",
+   "predicted": "เที่ยว",
+   "prob": 0.8841063380241394,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เที่ยว",
+   "predicted": "เที่ยว",
+   "prob": 0.8557032942771912,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เรียก",
+   "predicted": "เรียก",
+   "prob": 0.39450666308403015,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เรียก",
+   "predicted": "เรียก",
+   "prob": 0.4958958029747009,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เรียน",
+   "predicted": "เรียน",
+   "prob": 0.8659921884536743,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เรียน",
+   "predicted": "เรียน",
+   "prob": 0.9077117443084717,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เหงา",
+   "predicted": "เหงา",
+   "prob": 0.9064481258392334,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เหงา",
+   "predicted": "เหงา",
+   "prob": 0.9047542214393616,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เหนื่อย",
+   "predicted": "เหนื่อย",
+   "prob": 0.8684674501419067,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "เหนื่อย",
+   "predicted": "เหนื่อย",
+   "prob": 0.8481940031051636,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แต่งงาน",
+   "predicted": "แต่งงาน",
+   "prob": 0.8986321687698364,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แต่งงาน",
+   "predicted": "แต่งงาน",
+   "prob": 0.9013732671737671,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แฟน",
+   "predicted": "แฟน",
+   "prob": 0.893328845500946,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แฟน",
+   "predicted": "แฟน",
+   "prob": 0.8188714385032654,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แมว",
+   "predicted": "แมว",
+   "prob": 0.9229774475097656,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แมว",
+   "predicted": "แมว",
+   "prob": 0.9260967969894409,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แม่",
+   "predicted": "แม่",
+   "prob": 0.8671047687530518,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "แม่",
+   "predicted": "แม่",
+   "prob": 0.8718322515487671,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โกรธ",
+   "predicted": "โกรธ",
+   "prob": 0.7386787533760071,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โกรธ",
+   "predicted": "โกรธ",
+   "prob": 0.8476027846336365,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โรงเรียน",
+   "predicted": "โรงเรียน",
+   "prob": 0.8968912959098816,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โรงเรียน",
+   "predicted": "โรงเรียน",
+   "prob": 0.8848602771759033,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โสด",
+   "predicted": "โสด",
+   "prob": 0.8662951588630676,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "โสด",
+   "predicted": "โสด",
+   "prob": 0.9028787612915039,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ไข่",
+   "predicted": "ไข่",
+   "prob": 0.8758726119995117,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ไข่",
+   "predicted": "ไข่",
+   "prob": 0.8611999750137329,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ไป",
+   "predicted": "ไป",
+   "prob": 0.9480485916137695,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": "ไป",
+   "predicted": "ไป",
+   "prob": 0.9478020071983337,
+   "segments": 1,
+   "ok": true
+  },
+  {
+   "expected": null,
+   "predicted": "พี่",
+   "prob": 0.5230842232704163,
+   "segments": 1,
+   "ok": false
+  },
+  {
+   "expected": null,
+   "predicted": null,
+   "prob": 0,
+   "segments": 1,
+   "ok": true
+  }
+ ]
+}

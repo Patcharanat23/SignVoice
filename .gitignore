@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.venv/
+.cache/
+.DS_Store
+*.log
+public/wasm/
+public/models/
+__pycache__/
+# Docker data volume and exports (database, accounts, models: never commit)
+data/
+data-export/
+signvoice-data*.zip

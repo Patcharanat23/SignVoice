@@ -1,0 +1,29 @@
+.tutorial-nav { display: inline-flex; align-items: center; justify-content: center; width: 30px; min-width: 30px; height: 30px; border: 1px solid var(--studio-line, rgba(255,255,255,.2)); border-radius: 999px; background: transparent; color: inherit; padding: 0; font: inherit; cursor: pointer; }
+.view-switch .tutorial-nav { margin-right: 4px; }
+body.speak-view .view-switch .tutorial-nav { border-color: rgba(255,255,255,.2); }
+html .admin-top .view-switch .tutorial-nav { width: 30px; min-width: 30px; height: 30px; min-height: 30px; padding: 0; border-color: var(--studio-line); }
+.tutorial-nav:hover, .tutorial-nav:focus-visible { background: var(--studio-panel, rgba(255,255,255,.1)); border-color: currentColor; }
+body.speak-view .view-switch .tutorial-nav:hover,
+body.speak-view .view-switch .tutorial-nav:focus-visible { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.45); }
+.tutorial-nav .icon { width: 15px; height: 15px; }
+.showcase-tools { display: flex; align-items: center; gap: 10px; }
+.try-phrases { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 9px; }
+.try-phrases span { color: #777; font-size: 14px; margin-right: 3px; }
+.try-phrases button { border: 1px solid #aaa; border-radius: 999px; background: transparent; color: inherit; padding: 6px 11px; font: inherit; font-size: 14px; cursor: pointer; }
+.try-phrases button:hover, .try-phrases button:focus-visible { border-color: var(--studio-accent, #fa642d); color: var(--studio-accent, #fa642d); }
+.tutorial-layer[hidden] { display: none; }
+.tutorial-layer { position: fixed; inset: 0; z-index: 1000; pointer-events: none; font-family: var(--studio-font, "Leelawadee UI", sans-serif); }
+.tutorial-spotlight { position: fixed; border: 2px solid #ff7846; border-radius: 12px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .67), 0 0 0 5px rgba(255, 120, 70, .22); transition: left .18s, top .18s, width .18s, height .18s; pointer-events: none; }
+.tutorial-card { position: fixed; width: min(360px, calc(100vw - 24px)); padding: 20px; border: 1px solid #ff7846; border-radius: 16px; background: #faf9f6; color: #171817; box-shadow: 0 16px 48px rgba(0,0,0,.28); pointer-events: auto; outline: none; }
+.tutorial-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.tutorial-progress { color: #944227; font-size: 14px; font-weight: 800; letter-spacing: .04em; }
+.tutorial-close { border: 0; background: transparent; color: #4a4a4a; font-size: 26px; line-height: 1; cursor: pointer; }
+.tutorial-card h2 { margin: 12px 0 7px; font-size: 24px; line-height: 1.3; }
+.tutorial-card p { margin: 0; color: #474747; font-size: 17px; line-height: 1.6; }
+.tutorial-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+.tutorial-actions button { border: 1px solid #b6b6b2; border-radius: 8px; background: transparent; color: inherit; padding: 10px 14px; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.tutorial-actions button:disabled { opacity: .45; cursor: default; }
+.tutorial-actions .tutorial-next { border-color: #fa642d; background: #fa642d; color: #181818; }
+.tutorial-actions button:focus-visible, .tutorial-close:focus-visible { outline: 2px solid #fa642d; outline-offset: 2px; }
+@media (max-width: 600px) { .tutorial-card { padding: 17px; } .tutorial-card h2 { font-size: 21px; } .tutorial-card p { font-size: 16px; } }
+@media (prefers-reduced-motion: reduce) { .tutorial-spotlight { transition: none; } }

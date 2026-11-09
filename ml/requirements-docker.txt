@@ -1,0 +1,7 @@
+# Python packages for the Docker image (torch CPU is installed first, see Dockerfile).
+# Versions match the development machine.
+numpy==2.5.4
+onnxruntime==1.31.1
+onnx==1.23.2
+pandas==3.1.1
+soundfile==0.14.0

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/brand/signvoice-mark.png" type="image/png" />
+    <title>SignVoice — ผู้ดูแลระบบ</title>
+    <script src="/boot.js"></script>
+    <script src="/admin-redirect.js"></script>
+    <link rel="stylesheet" href="/src/pages.css" />
+    <link rel="stylesheet" href="/src/studio.css" />
+    <link rel="stylesheet" href="/src/tutorial.css" />
+  </head>
+  <body class="admin-page">
+    <header class="admin-top">
+      <div class="brand"><img class="brand-logo" src="/brand/signvoice-logo.png" alt="SignVoice" /></div>
+      <nav class="view-switch" aria-label="สลับหน้า"><a href="/?view=speak" data-icon="audio-lines">หน้าพูด</a><a href="/" data-icon="hand">สอนท่า</a><a href="/admin.html" class="on" aria-current="page" data-icon="shield">แอดมิน</a><span id="me" class="user-name"></span><button id="tutorial-open" type="button" class="tutorial-nav" data-icon="book" aria-label="เริ่มแนะนำการใช้งาน" title="เริ่มแนะนำการใช้งาน"></button><button class="theme-toggle" data-theme-toggle aria-label="สลับธีม"></button><button id="logout" class="logout" data-icon="log-out">ออก</button></nav>
+    </header>
+    <main class="admin-main">
+      <section class="stat-grid" id="stats">
+        <div><small>ผู้ใช้</small><strong id="stat-users">—</strong></div>
+        <div><small>การแปลทั้งหมด</small><strong id="stat-translations">—</strong></div>
+        <div><small>คำที่แก้ไขแล้ว</small><strong id="stat-corrected">—</strong></div>
+        <div><small>ตัวอย่างท่าที่บันทึก</small><strong id="stat-samples">—</strong></div>
+        <div><small>ครั้งที่ฝึกท่า</small><strong id="stat-runs">—</strong></div>
+        <div><small>รออนุมัติ</small><strong id="stat-pending">—</strong></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h2>ผู้ใช้</h2><small class="muted">ผู้ดูแลแก้คำศัพท์และสอนท่าให้ระบบได้ ส่วนผู้ใช้ทั่วไปพูดและเสนอท่าใหม่ได้</small></div>
+        <div class="table-wrap"><table id="users"><thead><tr><th>ชื่อผู้ใช้</th><th>ชื่อที่แสดง</th><th>สิทธิ์</th><th>สถานะ</th><th>สมัครเมื่อ</th><th>เข้าล่าสุด</th><th></th></tr></thead><tbody></tbody></table></div>
+        <p id="admin-error" class="error" role="alert"></p>
+      </section>
+
+      <section class="card">
+        <div class="card-head"><h2>ท่าที่รออนุมัติ <span id="pending-count" class="muted"></span></h2><div class="bulk"><button id="approve-all" class="ghost small" data-icon="check">อนุมัติทั้งหมด</button><button id="reject-all" class="danger small" data-icon="x">ปฏิเสธทั้งหมด</button></div></div>
+        <p class="muted small-note">ท่าที่ผู้ใช้ส่งมาจะรอให้คุณตรวจดูก่อน กดที่รายการเพื่อดูตัวอย่าง แล้วอนุมัติท่าที่ต้องการสอนให้ระบบจำ</p>
+        <div class="proposal-layout">
+          <div class="table-wrap short"><table id="proposals"><thead><tr><th>คำ</th><th>ผู้เสนอ</th><th>เวลา</th><th>เห็นมือ</th><th></th></tr></thead><tbody></tbody></table></div>
+          <div class="preview-box"><canvas id="proposal-canvas" width="320" height="240"></canvas><small id="preview-label" class="muted">เลือกท่าเพื่อดูตัวอย่าง</small></div>
+        </div>
+      </section>
+
+      <div class="two-col">
+        <section class="card"><div class="card-head"><h2>คำที่ถูกแก้บ่อย</h2><small class="muted">คำที่อ่านได้ → คำที่ผู้ใช้เลือก</small></div><ul id="confusions" class="plain-list"></ul></section>
+        <section class="card"><div class="card-head"><h2>บันทึกการเข้าใช้ล่าสุด</h2><small class="muted">50 รายการ</small></div><div class="table-wrap short"><table id="auth-log"><tbody></tbody></table></div></section>
+      </div>
+    </main>
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>

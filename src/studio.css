@@ -1,0 +1,548 @@
+/* Keep both scripts in one local type system, including when the app is offline. */
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+@import "@fontsource/ibm-plex-sans/latin-700.css";
+@import "@fontsource/ibm-plex-sans-thai/thai-400.css";
+@import "@fontsource/ibm-plex-sans-thai/thai-500.css";
+@import "@fontsource/ibm-plex-sans-thai/thai-600.css";
+@import "@fontsource/ibm-plex-sans-thai/thai-700.css";
+
+/* SignVoice studio skin. The page structure and camera processing stay in their own files. */
+:root {
+  --studio-font: "IBM Plex Sans", "IBM Plex Sans Thai", "Leelawadee UI", sans-serif;
+  --studio-bg: #e9e9e6;
+  --studio-paper: #f5f5f2;
+  --studio-panel: #eeeeeb;
+  --studio-ink: #171817;
+  --studio-muted: #646762;
+  --studio-line: #bfc1bc;
+  --studio-accent: #fa642d;
+  --studio-accent-ink: #181818;
+  --studio-grid: rgba(48, 50, 46, .085);
+  --type-caption: 13px;
+  --type-detail: 15px;
+  --type-control: 16px;
+  --type-body: 17px;
+  --type-nav: 16px;
+}
+:root[data-theme="dark"] {
+  --studio-bg: #151615;
+  --studio-paper: #20211f;
+  --studio-panel: #1c1d1b;
+  --studio-ink: #f3f3ef;
+  --studio-muted: #a5a8a1;
+  --studio-line: #494c47;
+  --studio-accent: #ff7846;
+  --studio-accent-ink: #181818;
+  --studio-grid: rgba(255, 255, 255, .045);
+}
+
+/* Quiet technical grid and crisp type, inspired by the supplied editorial references. */
+html body:not(.speak-view) {
+  background-color: var(--studio-bg);
+  color: var(--studio-ink);
+  background-image: linear-gradient(to right, var(--studio-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--studio-grid) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+html body:not(.speak-view) h1,
+html body:not(.speak-view) h2,
+html body:not(.speak-view) .brand strong,
+html body:not(.speak-view) .stat-grid strong {
+  font-family: var(--studio-font);
+}
+html body:not(.speak-view) :is(button, input, textarea, select, a) { accent-color: var(--studio-accent); }
+html body:not(.speak-view) :is(button, input, textarea, select, a):focus-visible {
+  outline: 2px solid var(--studio-accent);
+  outline-offset: 3px;
+}
+
+/* Login: preserve the left preview / right form composition. */
+html .auth-layout { background: transparent; gap: 0; }
+html .showcase {
+  background: transparent;
+  padding-left: clamp(24px, 4.3vw, 72px);
+  padding-right: clamp(24px, 4.3vw, 72px);
+}
+.showcase-top { padding-bottom: 15px; border-bottom: 1px solid var(--studio-line); }
+.brand-logo { display: block; width: 158px; height: auto; }
+:root[data-theme="dark"] .brand-logo { filter: invert(1) hue-rotate(180deg); }
+html .brand-mark,
+html[data-theme="light"] .brand-mark { background: var(--studio-accent); color: var(--studio-accent-ink); border-radius: 7px; }
+html .brand strong { font-size: 19px; font-weight: 700; letter-spacing: -.035em; }
+html .brand small { color: var(--studio-muted); letter-spacing: .16em; }
+html .eyebrow, html .section-index {
+  color: var(--studio-muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .2em;
+}
+html .eyebrow::before, html .section-index::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 8px;
+  background: var(--studio-accent);
+  vertical-align: 1px;
+}
+html .showcase h1 {
+  font-size: clamp(40px, 4.1vw, 72px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: 0;
+}
+html .showcase h1 span { color: var(--studio-ink); }
+html .lead { max-width: 630px; color: var(--studio-muted); line-height: 1.7; }
+html .carousel-frame {
+  border-radius: 8px;
+  border: 1px solid var(--studio-ink);
+  background: var(--studio-paper);
+  box-shadow: 10px 10px 0 var(--studio-line);
+}
+html .carousel-caption { border-bottom: 1px solid var(--studio-line); padding: 4px 0 13px; }
+html .carousel-caption strong { font-weight: 800; }
+html .carousel-caption span { color: var(--studio-muted); }
+html .carousel-tabs { gap: 6px; }
+html .carousel-tabs button {
+  padding: 8px 14px;
+  border-color: var(--studio-line);
+  background: var(--studio-paper);
+  color: var(--studio-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+html .carousel-tabs button:hover { border-color: var(--studio-ink); color: var(--studio-ink); }
+html .carousel-tabs button.on { background: var(--studio-ink); color: var(--studio-bg); border-color: var(--studio-ink); }
+html .carousel-arrow { opacity: 1; background: var(--studio-paper); color: var(--studio-ink); border-color: var(--studio-line); }
+html .carousel-arrow:hover { background: var(--studio-accent); color: var(--studio-accent-ink); border-color: var(--studio-accent); }
+
+html .auth-card { align-items: stretch; padding-inline: clamp(20px, 3.2vw, 55px); background: transparent; }
+html .auth-card .tabs, html #auth-form { max-width: 440px; }
+html .auth-card .tabs {
+  background: var(--studio-panel);
+  border-color: var(--studio-line);
+  border-radius: 11px 11px 0 0;
+  box-shadow: none;
+}
+html .tabs button { color: var(--studio-muted); }
+html .tabs button.on { background: var(--studio-ink); color: var(--studio-bg); border-radius: 7px; }
+html #auth-form {
+  background: var(--studio-paper);
+  border-color: var(--studio-line);
+  border-radius: 0 0 11px 11px;
+  box-shadow: 10px 10px 0 var(--studio-line);
+}
+html #auth-form h2 { font-size: clamp(28px, 2.2vw, 37px); font-weight: 700; line-height: 1.25; letter-spacing: 0; }
+html #auth-form > p.muted, html .field, html .fine { color: var(--studio-muted); }
+html .field input {
+  background: var(--studio-bg);
+  color: var(--studio-ink);
+  border-color: var(--studio-line);
+  border-radius: 7px;
+}
+html .field input:focus { border-color: var(--studio-accent); }
+html button.primary {
+  background: var(--studio-accent);
+  color: var(--studio-accent-ink);
+  border: 1px solid var(--studio-accent);
+  border-radius: 7px;
+  box-shadow: 3px 3px 0 var(--studio-ink);
+}
+html button.primary:hover:not(:disabled) { box-shadow: 5px 5px 0 var(--studio-ink); }
+html button.ghost { border-color: var(--studio-line); border-radius: 7px; color: var(--studio-ink); }
+html button.ghost:hover { border-color: var(--studio-accent); background: var(--studio-accent); color: var(--studio-accent-ink); }
+html .error { color: #b7331e; }
+
+/* Admin: ruled information tiles and rows. */
+html .admin-top { background: var(--studio-paper); border-bottom-color: var(--studio-line); }
+html .admin-top .view-switch {
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: nowrap;
+  width: auto;
+  max-width: 100%;
+  padding: 3px;
+  border: 1px solid var(--studio-line);
+  border-radius: 999px;
+  background: var(--studio-paper);
+  box-shadow: none;
+}
+@media (min-width: 901px) {
+  html .admin-top .view-switch { position: fixed; top: 14px; right: 16px; }
+}
+html .admin-top .view-switch a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45em;
+  flex: none;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--studio-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+html .admin-top .view-switch a:hover { color: var(--studio-ink); background: var(--studio-panel); }
+html .admin-top .view-switch a.on,
+html .admin-top .view-switch a.on:hover { background: var(--studio-ink); color: var(--studio-bg); }
+html .admin-top .view-switch .user-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 8px;
+  color: var(--studio-muted);
+  font-size: 13px;
+}
+html .admin-top .view-switch button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4em;
+  flex: none;
+  min-height: 31px;
+  margin-right: 2px;
+  padding: 5px 10px;
+  border: 1px solid var(--studio-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--studio-ink);
+  font-size: 13px;
+  cursor: pointer;
+}
+html .admin-top .view-switch .theme-toggle { width: 31px; padding: 0; }
+html .admin-top .view-switch button:hover { border-color: var(--studio-ink); }
+html .admin-main { gap: 14px; }
+html .stat-grid { gap: 0; border: 1px solid var(--studio-line); border-radius: 9px; overflow: hidden; }
+html .stat-grid div {
+  background: var(--studio-paper);
+  border: 0;
+  border-right: 1px solid var(--studio-line);
+  border-radius: 0;
+  padding: 18px;
+}
+html .stat-grid div:last-child { border-right: 0; }
+html .stat-grid small { color: var(--studio-muted); text-transform: uppercase; letter-spacing: .1em; }
+html .stat-grid strong { font-size: 36px; font-weight: 700; }
+html .card { background: var(--studio-paper); border-color: var(--studio-line); border-radius: 9px; }
+html .card-head { border-bottom: 1px solid var(--studio-line); padding-bottom: 12px; }
+html .card-head h2 { font-weight: 700; letter-spacing: 0; }
+html .muted, html .card-head small { color: var(--studio-muted); }
+html th { color: var(--studio-muted); border-bottom-color: var(--studio-line); text-transform: uppercase; letter-spacing: .06em; }
+html td { border-bottom-color: var(--studio-line); }
+html tbody tr:hover { background: var(--studio-panel); }
+html .admin-page { font-size: 15px; }
+html .admin-top { padding-block: 14px; }
+html .admin-page .brand strong { font-size: 20px; }
+html .admin-page .brand small { font-size: 10px; }
+html .admin-main { padding-top: 30px; }
+html .admin-page .stat-grid small { font-size: 13px; }
+html .admin-page .stat-grid strong { font-size: 38px; }
+html .admin-page .card { padding: 22px; }
+html .admin-page .card-head h2 { font-size: 22px; }
+html .admin-page .card-head small { font-size: 13.5px; line-height: 1.5; }
+html .admin-page table { font-size: 15px; }
+html .admin-page th { font-size: 13px; padding: 11px 10px; }
+html .admin-page td { padding: 12px 10px; }
+html .admin-page td.mono { font-size: 13px; }
+html .admin-page .plain-list { font-size: 15px; }
+html .admin-page button.small { font-size: 13px; padding: 7px 10px; }
+
+/* Manage view: the existing three-column workflow reads as one technical workbench. */
+html[data-theme="light"] body:not(.speak-view) .topbar { border-bottom-color: var(--studio-line); }
+html body:not(.speak-view) .topbar { border-bottom-color: var(--studio-line); }
+html body:not(.speak-view) .intro h1 { font-size: clamp(24px, 2.3vw, 34px); font-weight: 700; line-height: 1.3; letter-spacing: 0; }
+html body:not(.speak-view) .intro-sub { color: var(--studio-muted); }
+html body:not(.speak-view) .panel,
+html[data-theme="light"] body:not(.speak-view) .panel {
+  background: var(--studio-paper);
+  border-color: var(--studio-line);
+  box-shadow: none;
+  border-radius: 9px;
+}
+html body:not(.speak-view) .panel-heading { padding-bottom: 12px; border-bottom: 1px solid var(--studio-line); }
+html body:not(.speak-view) .panel-heading h2 { font-weight: 700; line-height: 1.3; letter-spacing: 0; }
+html[data-theme="light"] body:not(.speak-view) .panel-heading h2 { color: var(--studio-ink); }
+html body:not(.speak-view) .state-pill,
+html body:not(.speak-view) .count-pill {
+  border-color: var(--studio-line);
+  background: var(--studio-panel);
+  color: var(--studio-muted);
+  border-radius: 999px;
+}
+html body:not(.speak-view) .camera-stage { border-radius: 7px; border-color: var(--studio-line); }
+html body:not(.speak-view) .button { border-radius: 7px; }
+html body:not(.speak-view) .button-primary,
+html[data-theme="light"] body:not(.speak-view) .button-primary {
+  background: var(--studio-accent);
+  color: var(--studio-accent-ink);
+  border: 1px solid var(--studio-accent);
+}
+html body:not(.speak-view) .button-primary:hover,
+html[data-theme="light"] body:not(.speak-view) .button-primary:hover { background: #ff8856; }
+html body:not(.speak-view) .button-secondary,
+html body:not(.speak-view) .button-ghost,
+html[data-theme="light"] body:not(.speak-view) .button-secondary,
+html[data-theme="light"] body:not(.speak-view) .button-ghost {
+  background: var(--studio-panel);
+  color: var(--studio-ink);
+  border-color: var(--studio-line);
+}
+html body:not(.speak-view) .button-secondary:hover,
+html body:not(.speak-view) .button-ghost:hover { border-color: var(--studio-accent); }
+html body:not(.speak-view) :is(.token-list, textarea, #teach-new, #teach-new-en, #vocab-filter, .model-row select),
+html[data-theme="light"] body:not(.speak-view) :is(.token-list, textarea, #teach-new, #teach-new-en, #vocab-filter, .model-row select) {
+  background: var(--studio-bg);
+  color: var(--studio-ink);
+  border-color: var(--studio-line);
+  border-radius: 6px;
+}
+html body:not(.speak-view) .vocab-box { border-color: var(--studio-line); border-radius: 7px; }
+html body:not(.speak-view) .view-switch,
+html[data-theme="light"] body:not(.speak-view) .view-switch {
+  background: var(--studio-paper);
+  color: var(--studio-ink);
+  border-color: var(--studio-line);
+  box-shadow: none;
+}
+html body:not(.speak-view) .view-switch a { color: var(--studio-muted); }
+html body:not(.speak-view) .view-switch a.on,
+html[data-theme="light"] body:not(.speak-view) .view-switch a.on {
+  background: var(--studio-ink);
+  color: var(--studio-bg);
+}
+html body:not(.speak-view) .view-switch .logout,
+html[data-theme="light"] body:not(.speak-view) .view-switch .logout { color: var(--studio-ink); border-color: var(--studio-line); }
+html body:not(.speak-view) .view-switch .theme-toggle,
+html[data-theme="light"] body:not(.speak-view) .view-switch .theme-toggle { color: var(--studio-ink); border-color: var(--studio-line); }
+html body:not(.speak-view) .user-name { color: var(--studio-muted); }
+html body:not(.speak-view) .output-panel,
+html[data-theme="light"] body:not(.speak-view) .output-panel {
+  background: var(--studio-paper);
+  color: var(--studio-ink);
+  border-color: var(--studio-line);
+  border-radius: 8px;
+}
+
+/* Keep the fullscreen live camera dark; only its controls carry the studio accent. */
+html body.speak-view .view-switch a.on { background: var(--studio-accent); color: var(--studio-accent-ink); }
+html body.speak-view .button-primary,
+html[data-theme="light"] body.speak-view .button-primary { background: var(--studio-accent); color: var(--studio-accent-ink); }
+
+@media (min-width: 1200px) and (min-height: 640px) {
+  html body:not(.speak-view) .teach-column { border-radius: 9px 0 0 9px; border-right: 0; }
+  html body:not(.speak-view) .camera-panel { border-radius: 0 9px 9px 0; border-left: 1px solid var(--studio-line); }
+}
+@media (max-width: 900px) {
+  html .showcase { border: 0; }
+  html .stat-grid div { border-right: 1px solid var(--studio-line); border-bottom: 1px solid var(--studio-line); }
+  html .auth-card { padding-block: 28px; }
+  html .view-switch {
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    border-radius: 0;
+    padding: 6px 10px;
+    scrollbar-width: thin;
+  }
+  html .view-switch > * { flex: none; }
+  html .view-switch .user-name { display: none; }
+  html body:not(.speak-view) .view-switch { position: sticky; margin-bottom: 12px; }
+  html .admin-top { align-items: flex-start; }
+  html .admin-top .view-switch { overflow-x: auto; width: 100%; }
+}
+@media (max-width: 560px) {
+  html .showcase h1 { font-size: clamp(38px, 11vw, 54px); }
+  html .carousel-frame, html #auth-form { box-shadow: 5px 5px 0 var(--studio-line); }
+  html .carousel-tabs button { flex: 1 1 calc(50% - 6px); }
+  html .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html .stat-grid div:last-child { grid-column: 1 / -1; }
+  html body:not(.speak-view) .hud-sign.idle { display: none; }
+  html body:not(.speak-view) .camera-placeholder { bottom: 54px; }
+  html .admin-top .view-switch a { padding: 7px 9px; font-size: 14px; }
+  html .admin-top .view-switch button { padding: 5px 8px; font-size: 14px; }
+  html .admin-top .view-switch .theme-toggle { width: 29px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html button.primary { transition: none; }
+}
+
+/* One readable type scale across login, live camera, teaching, and admin views. */
+html body { font-family: var(--studio-font); font-size: var(--type-body); line-height: 1.55; font-synthesis: none; }
+html .brand small, html .admin-page .brand small { font-size: 11px; }
+html .eyebrow, html .section-index, html body:not(.speak-view) .section-index { font-size: var(--type-caption); }
+html .view-switch a, html .admin-top .view-switch a { font-size: var(--type-nav); }
+html .view-switch .logout, html .admin-top .view-switch button,
+html .admin-top .view-switch .user-name { font-size: var(--type-detail); }
+
+html .auth-page .lead { font-size: var(--type-body); }
+html .auth-page .carousel-caption strong { font-size: 17px; }
+html .auth-page .carousel-caption span { font-size: var(--type-control); }
+html .auth-page .carousel-tabs button,
+html .auth-page .tabs button { font-size: var(--type-control); }
+html .auth-page #form-sub,
+html .auth-page .field { font-size: var(--type-control); }
+html .auth-page .field input { font-size: var(--type-body); }
+html .auth-page .fine, html .auth-page .strength small { font-size: var(--type-detail); }
+
+html .admin-page .stat-grid small,
+html .admin-page .card-head small,
+html .admin-page th,
+html .admin-page td.mono,
+html .admin-page .small-note,
+html .admin-page #preview-label { font-size: var(--type-detail); }
+html .admin-page table,
+html .admin-page .plain-list { font-size: var(--type-body); }
+html .admin-page button.small { font-size: var(--type-control); }
+
+html body:not(.speak-view) .intro-sub { font-size: var(--type-control); }
+html body:not(.speak-view) .panel-heading h2 { font-size: 21px; }
+html body:not(.speak-view) .state-pill,
+html body:not(.speak-view) .count-pill { font-size: 13px; }
+html body:not(.speak-view) .button,
+html body:not(.speak-view) .input-label,
+html body:not(.speak-view) .model-row select,
+html body:not(.speak-view) :is(#teach-new, #teach-new-en, #vocab-filter) { font-size: var(--type-control); }
+html body:not(.speak-view) .input-label span,
+html body:not(.speak-view) .model-row label { font-size: var(--type-detail); }
+html body:not(.speak-view) textarea { font-size: var(--type-body); }
+html body:not(.speak-view) :is(.subtle-note, .status-line, .import-help) { font-size: var(--type-detail); line-height: 1.55; }
+html body:not(.speak-view) .vocab-box summary,
+html body:not(.speak-view) #vocab-table,
+html body:not(.speak-view) .minor-actions button,
+html body:not(.speak-view) .empty-hint,
+html body:not(.speak-view) .token,
+html body:not(.speak-view) .camera-placeholder span { font-size: var(--type-detail); }
+html body:not(.speak-view) .camera-placeholder strong { font-size: 18px; }
+html body:not(.speak-view) .camera-metrics small { font-size: 11px; }
+html body:not(.speak-view) .camera-metrics strong { font-size: var(--type-detail); }
+html body:not(.speak-view) footer { font-size: var(--type-detail); }
+html body:not(.speak-view) .hud-sign small { font-size: 13px; }
+html body:not(.speak-view) .output-panel strong { font-size: var(--type-body); }
+html body:not(.speak-view) .output-panel select { font-size: var(--type-control); }
+html body:not(.speak-view) .output-check,
+html body:not(.speak-view) .output-help { font-size: var(--type-detail); }
+
+html body.speak-view .hud-tokens span { font-size: var(--type-body); }
+html body.speak-view .hud-sign strong { font-size: 20px; }
+html body.speak-view .hud-sign small { font-size: 13px; }
+html body.speak-view .hud-attention,
+html body.speak-view .hud-emotions div,
+html body.speak-view .speak-hint,
+html body.speak-view .button,
+html body.speak-view .camera-placeholder span { font-size: var(--type-control); }
+html body.speak-view .camera-placeholder strong { font-size: 19px; }
+html body.speak-view .output-panel strong { font-size: var(--type-body); }
+html body.speak-view .output-panel select,
+html body.speak-view .output-check { font-size: var(--type-control); }
+html body.speak-view .output-help { font-size: var(--type-detail); }
+
+@media (max-width: 560px) {
+  :root { --type-nav: 15px; }
+  html .admin-top .view-switch a { padding-inline: 7px; }
+  html .admin-top .view-switch button { padding-inline: 7px; }
+  html body:not(.speak-view) .panel-heading h2 { font-size: 20px; }
+  html body.speak-view .speak-controls {
+    bottom: 14px;
+    flex-direction: column;
+    gap: 8px;
+    padding-inline: 12px;
+    text-align: center;
+  }
+  html body.speak-view #speak-start { min-width: 146px; white-space: nowrap; }
+  html body.speak-view .speak-hint { max-width: 370px; font-size: var(--type-detail); line-height: 1.4; }
+  html body.speak-view .hud-sign { bottom: 160px; width: min(340px, calc(100vw - 24px)); }
+  html body.speak-view .hud-tokens { top: 60px; left: 12px; right: 12px; }
+  html body.speak-view .hud-sentence { top: 108px; left: 12px; right: 12px; font-size: clamp(22px, 6vw, 30px); }
+}
+
+@media (min-width: 901px) and (max-height: 900px) {
+  html .showcase { gap: 14px; padding-bottom: 18px; }
+  html .carousel { width: min(720px, calc((100vh - 400px) * 16 / 9)); }
+}
+
+/* The idle camera surface follows the site theme; live video keeps its own colours. */
+html body:not(.camera-on) .camera-stage,
+html body:not(.camera-on) .camera-placeholder {
+  transition: background-color .25s ease, color .25s ease;
+}
+html[data-theme="light"] body:not(.camera-on) .camera-stage,
+html[data-theme="light"] body:not(.camera-on) .camera-placeholder,
+html[data-theme="light"] body.speak-view:not(.camera-on) .camera-panel {
+  background: var(--studio-paper);
+}
+html[data-theme="light"] body.speak-view:not(.camera-on) { background: var(--studio-paper); }
+html[data-theme="light"] body:not(.camera-on) .camera-placeholder { color: var(--studio-muted); }
+html[data-theme="light"] body:not(.camera-on) .camera-placeholder strong { color: var(--studio-ink); }
+html[data-theme="light"] body:not(.camera-on) .camera-icon { color: var(--studio-accent); }
+html[data-theme="light"] body.speak-view:not(.camera-on) .speak-hint { color: var(--studio-muted); text-shadow: none; }
+html[data-theme="light"] body.speak-view:not(.camera-on) #speak-start { background: var(--studio-ink); color: var(--studio-paper); }
+html body:not(.camera-on) .camera-metrics {
+  background: var(--studio-panel);
+  color: var(--studio-ink);
+  border-top-color: var(--studio-line);
+  backdrop-filter: none;
+  transition: background-color .25s ease, color .25s ease;
+}
+html body:not(.camera-on) .camera-metrics > div { border-right-color: var(--studio-line); }
+html body:not(.camera-on) .camera-metrics small { color: var(--studio-muted); }
+
+/* The full-screen speak view needs its own camera off control. */
+html body.speak-view #speak-stop[hidden] { display: none; }
+html body.speak-view #speak-stop { color: #fff; background: rgba(22, 24, 22, .75); border: 1px solid rgba(255,255,255,.35); white-space: nowrap; }
+html body.speak-view #speak-stop:hover { background: rgba(22, 24, 22, .9); }
+
+/* Admin data appears as soon as it arrives; these placeholders only cover the fetch. */
+:root { --skeleton-base: #e0e1dc; --skeleton-shine: #f8f8f5; }
+:root[data-theme="dark"] { --skeleton-base: #343733; --skeleton-shine: #50544e; }
+html .admin-skeleton {
+  max-width: 1400px;
+  margin: auto;
+  padding: 30px clamp(16px, 4vw, 48px) 60px;
+  display: grid;
+  gap: 14px;
+}
+html .admin-skeleton-stats { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border: 1px solid var(--studio-line); border-radius: 9px; overflow: hidden; }
+html .admin-skeleton-stats i { min-height: 110px; background: var(--studio-panel); border-right: 1px solid var(--studio-line); padding: 18px; }
+html .admin-skeleton-stats i:last-child { border-right: 0; }
+html .admin-skeleton-stats i::before,
+html .admin-skeleton-stats i::after,
+html .skeleton-line {
+  content: "";
+  display: block;
+  height: 13px;
+  border-radius: 4px;
+  background: linear-gradient(105deg, var(--skeleton-base) 28%, var(--skeleton-shine) 50%, var(--skeleton-base) 72%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+html .admin-skeleton-stats i::before { width: 60%; height: 10px; }
+html .admin-skeleton-stats i::after { width: 40%; height: 31px; margin-top: 13px; }
+html .admin-skeleton-card { min-height: 180px; padding: 24px; display: flex; flex-direction: column; gap: 20px; background: var(--studio-panel); border: 1px solid var(--studio-line); border-radius: 9px; }
+html .skeleton-line { width: min(72%, 640px); }
+html .skeleton-line.short { width: min(28%, 220px); height: 20px; margin-bottom: 6px; }
+@keyframes skeleton-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+@media (max-width: 900px) {
+  html .admin-skeleton-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  html .admin-skeleton-stats i { border-bottom: 1px solid var(--studio-line); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body:not(.camera-on) .camera-stage,
+  html body:not(.camera-on) .camera-placeholder,
+  html body:not(.camera-on) .camera-metrics { transition: none; }
+  html .admin-skeleton-stats i::before,
+  html .admin-skeleton-stats i::after,
+  html .skeleton-line { animation: none; }
+}

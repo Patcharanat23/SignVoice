@@ -1,0 +1,12 @@
+node_modules
+dist
+public/models
+public/wasm
+.git
+.env
+data
+presentation
+*.log
+__pycache__
+.venv
+.cache

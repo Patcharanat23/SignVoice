@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="th" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/brand/signvoice-mark.png" type="image/png" />
+    <title>SignVoice Local — Gesture to Speech</title>
+    <script src="/boot.js"></script>
+    <link rel="stylesheet" href="/src/pages.css" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <link rel="stylesheet" href="/src/studio.css" />
+    <link rel="stylesheet" href="/src/tutorial.css" />
+  </head>
+  <body>
+    <script src="/speak-boot.js"></script>
+    <div id="speak-aura" class="speak-aura" aria-hidden="true"><i class="aura-glow"><b></b></i><i class="aura-ring"></i></div>
+    <header class="app-header">
+      <div class="brand"><img class="brand-logo" src="/brand/signvoice-logo.png" alt="SignVoice" /></div>
+      <nav class="view-switch" aria-label="สลับหน้า"><a href="/?view=speak" data-view="speak" data-icon="audio-lines">หน้าพูด</a><a href="/" data-view="teach" data-icon="hand">สอนท่า</a><a href="/?view=admin" data-view="admin" class="admin-only" data-icon="shield">แอดมิน</a><span id="user-name" class="user-name"></span><button id="tutorial-open" type="button" class="tutorial-nav" data-icon="book" aria-label="เริ่มแนะนำการใช้งาน" title="เริ่มแนะนำการใช้งาน"></button><button id="output-button" class="logout" aria-expanded="false" aria-label="เลือกเสียงออก" title="เลือกเสียงออก" data-icon="mic"></button><button class="theme-toggle" data-theme-toggle aria-label="สลับธีม"></button><button id="logout-button" class="logout">ออก</button></nav>
+    </header>
+    <div id="output-panel" class="output-panel" hidden>
+      <strong>ส่งเสียงพูดไปที่</strong>
+      <select id="output-select"><option value="">ลำโพงของเครื่องนี้</option></select>
+      <div class="output-row"><button id="output-scan" class="button button-ghost" data-icon="mic">ค้นหาอุปกรณ์เสียง</button><button id="output-test" class="button button-ghost" data-icon="volume">ทดสอบเสียง</button></div>
+      <label class="output-check"><input type="checkbox" id="output-monitor" checked /> ได้ยินเสียงจากลำโพงเครื่องนี้ด้วย</label>
+      <p class="output-help">ถ้าใช้ Zoom, Meet, Teams หรือ Discord ให้เลือกไมค์เสมือนที่นี่ เช่น <b>CABLE Input</b> หรือ <b>Speakers (Steam Streaming Microphone)</b> แล้วเลือกไมโครโฟนคู่กันในแอปประชุม เช่น <b>CABLE Output</b> หรือ <b>Microphone (Steam Streaming Microphone)</b> คนในห้องจะได้ยินข้อความที่คุณเลือกพูด</p>
+      <p id="output-status" class="output-help"></p>
+    </div>
+    <div class="page-shell">
+      <main>
+        <section class="intro"><h1>สอนท่าและจัดคำ</h1><span class="intro-sub">เพิ่มคำที่อยากใช้ ลองทำท่า แล้วตรวจข้อความก่อนพูด</span></section>
+
+        <div class="workspace">
+          <section class="camera-panel panel">
+            <div class="panel-heading"><div><span class="section-index">02 / LIVE INPUT</span><h2>ลองทำท่าหน้ากล้อง</h2></div><span id="camera-pill" class="state-pill">ยังไม่เปิดกล้อง</span></div>
+            <div class="camera-stage" id="camera-stage">
+              <video id="camera" autoplay muted playsinline></video>
+              <canvas id="overlay"></canvas>
+              <div class="camera-placeholder" id="camera-placeholder"><div class="camera-icon" data-icon="camera"></div><strong>เปิดกล้องเพื่อเริ่ม</strong><span>วางมือให้อยู่ในภาพ แล้วลองทำท่าที่ต้องการ</span></div>
+              <div class="stage-corner top-left"></div><div class="stage-corner top-right"></div><div class="stage-corner bottom-left"></div><div class="stage-corner bottom-right"></div>
+              <div class="hud-attention" id="hud-attention"></div>
+              <div class="hud-tokens" id="hud-tokens"></div>
+              <div class="hud-sentence hidden" id="hud-sentence"><span class="hud-voice"><b></b><b></b><b></b></span><span id="hud-sentence-text"></span></div>
+              <div class="hud-sign idle" id="hud-sign"><strong>—</strong><div class="hud-bar"><i></i></div><small>รอท่าถัดไป</small></div>
+              <div class="speak-controls"><button id="speak-start" class="button button-primary" data-icon="camera">เริ่มกล้อง</button><button id="speak-stop" class="button button-ghost" data-icon="camera-off" hidden>ปิดกล้อง</button><span class="speak-hint">ทำท่าทีละคำแล้วลดมือลง · ยกมือเหนือหัวค้าง 1 วินาทีเพื่อพูด · ชูสองนิ้วแล้วพับลง 2 ครั้งเพื่อลบคำ</span></div>
+              <div class="camera-metrics"><div><small>HAND</small><strong id="hand-state">—</strong></div><div><small>LIGHT</small><strong id="light-state">—</strong></div><div><small>FRAMES</small><strong id="fps-state">—</strong></div></div>
+            </div>
+            <div class="camera-actions"><button id="camera-button" class="button button-primary" data-icon="camera">เปิดกล้อง</button><a href="/?view=speak" class="button button-primary speak-link" data-icon="audio-lines">เปิดหน้าพูด (เต็มจอ)</a><button id="tsl-sample-button" class="button button-secondary" data-icon="play">คลิป TSL: สวัสดี</button><button id="video-button" class="button button-ghost">เลือกวิดีโอทดสอบ</button><input id="video-input" type="file" accept="video/mp4,video/webm" hidden /></div>
+            <div class="pipeline" id="pipeline"><div data-step="hand"><span>จับมือ & ร่างกาย</span><small>MediaPipe</small></div><div data-step="sign"><span>แปลท่า</span><small>TSL model</small></div><div data-step="llm"><span>LLM เรียบเรียง</span><small>Qwen3 · Ollama</small></div><div data-step="voice"><span>เสียงพูด</span><small>ThonburianTTS</small></div></div>
+            <div id="candidates" class="subtle-note">ทำท่าทีละคำ แล้วลดมือลงเมื่อจบคำ</div>
+            <p id="vision-status" class="status-line" role="status">ภาพจากกล้องประมวลผลบนเครื่องของคุณ</p>
+          </section>
+
+          <section class="teach-column panel">
+            <div class="panel-heading"><div><span class="section-index">01 / TEACH</span><h2 id="teach-title">สอนท่าและคำศัพท์</h2></div></div>
+          <div id="teach-panel" class="teach-panel">
+            <div class="model-row"><label for="teach-word">คำที่จะสอน</label><select id="teach-word"><option>กำลังโหลด...</option></select></div>
+            <div class="teach-actions"><input id="teach-new" list="teach-ideas" placeholder="คำใหม่ (ไทย) เช่น ดีใจ" maxlength="30" /><input id="teach-new-en" placeholder="English e.g. happy" maxlength="60" /><button id="teach-add" class="button button-ghost" data-icon="plus">เพิ่มคำ</button></div>
+            <datalist id="teach-ideas"><option value="ดีใจ"><option value="เสียใจ"><option value="ยินดี"><option value="ยินดีที่ได้รู้จัก"><option value="รัก"><option value="ใช่"><option value="ไม่ใช่"><option value="ไม่"><option value="เข้าใจ"><option value="ไม่เข้าใจ"><option value="ช่วยด้วย"><option value="หิว"><option value="อิ่ม"><option value="น้ำ"><option value="ห้องน้ำ"><option value="ป่วย"><option value="เจ็บ"><option value="สนุก"><option value="เบื่อ"><option value="ตกใจ"><option value="คิดถึง"><option value="ลาก่อน"><option value="อีกครั้ง"><option value="ช้าๆ"></datalist>
+            <div class="teach-actions"><button id="teach-record" class="button button-secondary" data-icon="record">เริ่มบันทึก</button><button id="teach-undo" class="button button-ghost" data-icon="trash">ลบท่าล่าสุด</button><button id="teach-train" class="button button-primary" data-icon="zap">ฝึกให้จำท่า</button></div>
+            <div class="teach-actions"><button id="teach-import" class="button button-ghost" data-icon="upload">นำเข้าคลิปหลายไฟล์</button><input id="teach-import-input" type="file" accept="video/mp4,video/webm" multiple hidden /></div>
+            <details class="import-help">
+              <summary>วิธีเตรียมคลิปก่อนนำเข้า</summary>
+              <ul>
+                <li><b>ตั้งชื่อไฟล์ = คำ_ลำดับ</b> เช่น <code>สวัสดี_01.mp4</code>, <code>สวัสดี_02.mp4</code>, <code>ขอบคุณ_01.mp4</code> (ระบบใช้ส่วนก่อน <code>_</code> เป็นชื่อคำ ตัวอักษรไทย/อังกฤษ/ตัวเลขเท่านั้น ไม่เกิน 30 ตัว)</li>
+                <li><b>1 คลิป = 1 ท่า</b> เริ่มจากมือลง → ทำท่า → มือลง ยาว 1–5 วินาที (ระบบอ่านแค่ 26 วินาทีแรก)</li>
+                <li><b>เห็นตั้งแต่หัวถึงเอว</b> และเห็นมือทั้งสองข้างตลอดท่า คนเดียวในภาพ หันหน้าเข้ากล้อง</li>
+                <li>แสงสว่างพอ พื้นหลังเรียบ ไม่ใส่ถุงมือหรือแขนเสื้อยาวคลุมมือ</li>
+                <li>ไฟล์ <b>MP4 (H.264)</b> หรือ <b>WebM</b> ที่เปิดใน Chrome ได้ · ไฟล์ที่อ่านไม่ได้หรือไม่เห็นมือจะถูกข้ามพร้อมบอกเหตุผล</li>
+                <li>คำที่มีอยู่แล้วจะเพิ่มเป็นตัวอย่างของคำนั้น คำใหม่จะถูกสร้างให้ (เติมชื่ออังกฤษในตารางคำศัพท์ได้)</li>
+                <li>ใช้เวลา ~2–6 วินาทีต่อคลิป (100 คลิป ≈ 4–10 นาที) ระหว่างนำเข้ากล้องจะปิดชั่วคราว · เสร็จแล้วกด “ฝึกให้จำท่า”</li>
+                <li>ใช้คลิปของตัวเองหรือคลิปที่ได้รับอนุญาตเท่านั้น</li>
+              </ul>
+            </details>
+            <div class="teach-actions"><button id="teach-last" class="button button-ghost" disabled data-icon="save">เก็บท่าที่เพิ่งทำให้คำนี้</button></div>
+            <details class="vocab-box"><summary data-icon="book">คำศัพท์ · แก้ชื่อไทย / อังกฤษ</summary><input id="vocab-filter" placeholder="ค้นหาคำ..." /><div class="vocab-wrap"><table id="vocab-table"><thead><tr><th>ชื่อไทย</th><th>English</th><th>ตัวอย่าง</th></tr></thead><tbody></tbody></table></div><small class="subtle-note">แก้ชื่อได้ทันที โดยไม่ต้องสอนท่าซ้ำ</small></details>
+            <div id="teach-status" class="subtle-note">เลือกคำ กดเริ่มบันทึก แล้วทำท่าซ้ำประมาณ 10 ครั้ง ก่อนกด “ฝึกให้จำท่า”</div>
+          </div>
+          </section>
+
+          <section class="compose-panel panel">
+            <div class="panel-heading"><div><span class="section-index">03 / COMPOSE</span><h2>ข้อความที่จะพูด</h2></div><span id="word-count" class="count-pill">0 คำ</span></div>
+            <div class="input-label">คำที่อ่านได้ <span>กด × เพื่อลบคำ</span></div>
+            <div id="token-list" class="token-list"><span class="empty-hint">คำที่อ่านได้จะขึ้นตรงนี้</span></div>
+            <div class="divider"></div>
+            <label class="input-label" for="sentence">ตรวจข้อความก่อนพูด <span>แก้ไขได้เสมอ</span></label>
+            <textarea id="sentence" placeholder="พิมพ์หรือแก้ข้อความที่อยากพูด" rows="4"></textarea>
+            <div class="try-phrases" aria-label="ข้อความตัวอย่าง"><span>ลองก่อนเปิดกล้อง</span><button type="button" data-example-th="สวัสดี ยินดีที่ได้พบคุณ" data-example-en="Hello, nice to meet you" data-label-th="สวัสดี" data-label-en="Hello">สวัสดี</button><button type="button" data-example-th="ขอบคุณมากนะ" data-example-en="Thank you very much" data-label-th="ขอบคุณ" data-label-en="Thank you">ขอบคุณ</button></div>
+            <div class="model-row"><label for="language-select">ภาษา</label><select id="language-select"><option value="th">ภาษาไทย</option><option value="en">English</option></select></div>
+            <div class="model-row"><label for="model-select">ตัวช่วยเรียงประโยค</label><select id="model-select"><option value="">กำลังตรวจตัวช่วย...</option></select></div>
+            <div id="model-status" class="subtle-note">หากยังไม่มี Ollama คุณยังพิมพ์และพูดข้อความเองได้</div>
+            <label class="subtle-note"><input id="auto-compose" type="checkbox" checked /> ช่วยเรียงประโยคเมื่อหยุดทำท่า 1.5 วินาที</label>
+            <div class="compose-actions"><button id="rewrite-button" class="button button-secondary" data-icon="sparkles">ช่วยเรียงประโยค</button><button id="speak-button" class="button button-primary" data-icon="volume">พูดข้อความนี้</button></div>
+            <div class="minor-actions"><button id="undo-button" data-icon="undo">ย้อนคำล่าสุด</button><button id="clear-button" data-icon="trash">ล้างทั้งหมด</button></div>
+          </section>
+        </div>
+
+      </main>
+      <footer>ตอนนี้ระบบรู้จักท่าได้บางคำ และคุณสอนท่าเพิ่มได้ · ตรวจข้อความก่อนพูดทุกครั้ง · โครงการนี้ทำเพื่อการศึกษา ดู LICENSES.md</footer>
+    </div>
+    <div id="admin-outlet" class="admin-page" hidden>
+      <div class="admin-skeleton" role="status" aria-label="กำลังเปิดหน้าแอดมิน">
+        <div class="admin-skeleton-stats" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="admin-skeleton-card" aria-hidden="true"><i class="skeleton-line short"></i><i class="skeleton-line"></i><i class="skeleton-line"></i></div>
+        <div class="admin-skeleton-card" aria-hidden="true"><i class="skeleton-line short"></i><i class="skeleton-line"></i><i class="skeleton-line"></i></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

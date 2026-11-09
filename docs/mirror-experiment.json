@@ -1,0 +1,30 @@
+{
+ "test": "held-out signers; left_handed = the same clips mirrored",
+ "test_clips": {
+  "tslone_new_signers": 666,
+  "tsl51_new_signer": 547
+ },
+ "results": {
+  "base_model_no_finetune": {
+   "tslone_new_signers_right_handed": 0.8619,
+   "tslone_new_signers_left_handed": 0.2012,
+   "tsl51_new_signer_right_handed": 0.7879,
+   "tsl51_new_signer_left_handed": 0.5137
+  },
+  "finetune_without_mirror": {
+   "tslone_new_signers_right_handed": 0.8243,
+   "tslone_new_signers_left_handed": 0.1802,
+   "tsl51_new_signer_right_handed": 0.7824,
+   "tsl51_new_signer_left_handed": 0.5448,
+   "train_clips": 10084
+  },
+  "finetune_with_mirrored_copies": {
+   "tslone_new_signers_right_handed": 0.8514,
+   "tslone_new_signers_left_handed": 0.8138,
+   "tsl51_new_signer_right_handed": 0.7569,
+   "tsl51_new_signer_left_handed": 0.7331,
+   "train_clips": 20168
+  }
+ },
+ "minutes": 4.5
+}

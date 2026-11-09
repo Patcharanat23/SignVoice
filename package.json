@@ -1,0 +1,31 @@
+{
+  "name": "signvoice",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local camera gesture communication prototype with face cues, editable text and speech",
+  "scripts": {
+    "dev": "node server.mjs",
+    "build": "node scripts/setup-assets.mjs --wasm-only && vite build",
+    "start": "node server.mjs --production",
+    "test": "node --test",
+    "test:browser": "node scripts/smoke.mjs",
+    "test:speech": "node scripts/speech-smoke.mjs",
+    "compare:models": "node scripts/compare-models.mjs",
+    "postinstall": "node scripts/setup-assets.mjs",
+    "test:tsl": "node scripts/video-smoke.mjs --tsl",
+    "setup:ml": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File ml/setup.ps1",
+    "train:tsl": "powershell.exe -NoProfile -Command \"& $env:USERPROFILE/.signvoice/venv/Scripts/python.exe ml/train_tsl.py\"",
+    "eval:tsl": "node scripts/eval-tsl-browser.mjs",
+    "test:security": "node scripts/security-smoke.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@fontsource/ibm-plex-sans-thai": "^5.3.0",
+    "@mediapipe/tasks-vision": "^0.10.35",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.1"
+  }
+}

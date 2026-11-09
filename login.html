@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/brand/signvoice-mark.png" type="image/png" />
+    <title>SignVoice — เข้าสู่ระบบ</title>
+    <script src="/boot.js"></script>
+    <link rel="stylesheet" href="/src/pages.css" />
+    <link rel="stylesheet" href="/src/studio.css" />
+    <link rel="stylesheet" href="/src/tutorial.css" />
+  </head>
+  <body class="auth-page">
+    <main class="auth-layout">
+      <header class="showcase-top"><div class="brand"><img class="brand-logo" src="/brand/signvoice-logo.png" alt="SignVoice" /></div><div class="showcase-tools"><button id="tutorial-open" type="button" class="tutorial-nav" data-icon="book" aria-label="เริ่มแนะนำการใช้งาน" title="เริ่มแนะนำการใช้งาน"></button><button class="ghost theme-toggle" data-theme-toggle aria-label="สลับธีม"></button></div></header>
+
+      <!-- Left: what SignVoice is and what each page does -->
+      <section class="showcase" aria-label="เกี่ยวกับ SignVoice">
+        <div class="showcase-hero">
+          <p class="eyebrow">SIGN · SENTENCE · VOICE</p>
+          <h1>ท่ามือของคุณ<br /><span>กลายเป็นเสียงพูด</span></h1>
+          <p class="lead">ทำท่าหน้ากล้องทีละคำ ตรวจข้อความให้ตรงใจ แล้วให้ SignVoice พูดแทนคุณ ภาพจากกล้องจะประมวลผลบนเครื่องของคุณ</p>
+        </div>
+
+        <!-- Slideshow of real screens. To change a picture, replace the file in public/showcase/ (same name). -->
+        <div class="carousel" id="carousel" tabindex="0" aria-roledescription="carousel" aria-label="ตัวอย่างหน้าจอ">
+          <div class="carousel-frame">
+            <figure class="slide on"><img src="/showcase/photo-1-live.jpg" alt="ระบบอ่านมือแบบเรียลไทม์บนหน้าพูด" /></figure>
+            <figure class="slide"><img src="/showcase/photo-2-sentence.jpg" alt="คำที่แปลได้ถูกเรียบเรียงเป็นประโยค" /></figure>
+            <figure class="slide"><img src="/showcase/photo-3-manage.jpg" alt="หน้าจัดการท่าทาง" /></figure>
+            <figure class="slide"><img src="/showcase/3-voice-output.jpg" alt="ตั้งค่าเสียงออกไปไมค์เสมือน" /></figure>
+            <button class="carousel-arrow prev" id="slide-prev" aria-label="ภาพก่อนหน้า" data-icon="chevron-left"></button>
+            <button class="carousel-arrow next" id="slide-next" aria-label="ภาพถัดไป" data-icon="chevron-right"></button>
+          </div>
+          <div class="carousel-caption" aria-live="polite"><strong id="slide-title"></strong><span id="slide-text"></span></div>
+          <div class="carousel-tabs" role="tablist">
+            <button role="tab" data-slide="0" data-title="เริ่มจากท่ามือ" data-text="เปิดกล้องแล้วทำท่าทีละคำ คุณตรวจคำที่อ่านได้ก่อนพูดออกเสียง">1 · อ่านท่า</button>
+            <button role="tab" data-slide="1" data-title="เรียงเป็นข้อความ" data-text="เลือกหรือแก้คำที่อ่านได้ แล้วเรียงให้เป็นประโยคที่คุณต้องการ">2 · เรียงประโยค</button>
+            <button role="tab" data-slide="2" data-title="สอนท่าที่ใช้บ่อย" data-text="เพิ่มคำและบันทึกท่าของคุณไว้ใช้ในครั้งต่อไป">3 · สอนท่า</button>
+            <button role="tab" data-slide="3" data-title="คุยในห้องประชุม" data-text="เลือกไมค์เสมือนเพื่อส่งเสียงพูดไปยังแอปประชุม">4 · ห้องประชุม</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: login / register -->
+      <section class="auth-card" aria-label="เข้าสู่ระบบหรือสมัครสมาชิก">
+        <div class="tabs" role="tablist">
+          <button id="tab-login" role="tab" aria-selected="true" class="on">เข้าสู่ระบบ</button>
+          <button id="tab-register" role="tab" aria-selected="false">สมัครสมาชิก</button>
+        </div>
+
+        <form id="auth-form" novalidate>
+          <h2 id="form-title">ยินดีต้อนรับกลับ</h2>
+          <p id="form-sub" class="muted">เข้าสู่ระบบเพื่อเริ่มใช้งาน</p>
+
+          <label class="field register-only" hidden>ชื่อที่แสดง<input id="display-name" name="displayName" maxlength="40" autocomplete="name" placeholder="เช่น พัช" /></label>
+          <label class="field">ชื่อผู้ใช้<input id="username" name="username" required minlength="3" maxlength="32" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="a–z, 0–9, _ ." /></label>
+          <label class="field">รหัสผ่าน
+            <span class="password-row"><input id="password" name="password" type="password" required minlength="8" maxlength="128" autocomplete="current-password" /><button type="button" id="toggle-password" class="ghost" aria-label="แสดงรหัสผ่าน">แสดง</button></span>
+          </label>
+          <div class="strength register-only" hidden><i id="strength-bar"></i><small id="strength-text">อย่างน้อย 8 ตัว มีทั้งตัวอักษรและตัวเลข</small></div>
+          <label class="field register-only" hidden>ยืนยันรหัสผ่าน<input id="password2" type="password" maxlength="128" autocomplete="new-password" /></label>
+
+          <p id="form-error" class="error" role="alert"></p>
+          <button id="submit" class="primary" type="submit">เข้าสู่ระบบ</button>
+          <p class="fine" data-icon="lock">รหัสผ่านถูกเก็บในรูปแบบที่อ่านย้อนกลับไม่ได้ หากกรอกผิด 5 ครั้ง จะพักการเข้าสู่ระบบ 15 นาที</p>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/login.js"></script>
+  </body>
+</html>

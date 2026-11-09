@@ -1,0 +1,8 @@
+# Install torch first from the CUDA index (see ml/setup.ps1), then:
+f5-tts==1.1.22          # runs the ThonburianTTS checkpoint (MIT code)
+ai-edge-litert==2.3.0   # runs the Kaggle ASL 1st-place TFLite model
+onnxruntime==1.31.1     # runs the TSL-51 model trained by ml/train_tsl.py
+onnx
+pandas
+soundfile
+py7zr                   # extracts the TSL-ONE keypoint archive
