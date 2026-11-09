@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/signvoice-logo-white.png">
-    <img src="public/brand/signvoice-logo.png" alt="SignVoice" width="360">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/brand/logo-reveal-dark.gif">
+    <img src="docs/brand/logo-reveal-light.gif" alt="SignVoice" width="560">
   </picture>
 </p>
 
