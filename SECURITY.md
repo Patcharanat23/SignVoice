@@ -63,4 +63,4 @@ npm run test:security   # defaults to port 5174 and refuses to run against 5173
 
 - Rate limits are kept in memory and reset when the server restarts.
 - No email verification, password reset or 2FA. An admin can delete the account so the user can register again.
-- Camera video stays in the browser, but the sentence to be spoken is sent to ElevenLabs when an API key is configured.
+- Camera video stays in the browser, but the sentence to be spoken is sent to ElevenLabs when `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` are set.

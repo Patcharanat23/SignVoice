@@ -58,7 +58,7 @@ The recogniser is trained on TSL-51 and TSL-ONE (32 signers) and uses 146 everyd
 
 ## Getting started (Windows)
 
-Requirements: Node.js 20+, Chrome or Edge, [Ollama](https://ollama.com), and ideally an NVIDIA GPU. Large files (Python venv, datasets, models) live in `%USERPROFILE%\.signvoice`, outside the repo.
+Requirements: Node.js 22.13+ (for the built-in `node:sqlite`; Docker uses Node 26), Chrome or Edge, [Ollama](https://ollama.com), and ideally an NVIDIA GPU. Large files (Python venv, datasets, models) live in `%USERPROFILE%\.signvoice`, outside the repo.
 
 ```powershell
 git clone https://github.com/Patcharanat23/SignVoice.git
@@ -69,22 +69,47 @@ ollama pull qwen3:4b-instruct
 npm run dev                   # http://127.0.0.1:5173
 ```
 
-For ElevenLabs voices, create a `.env` file (it is git-ignored):
+For ElevenLabs voices, create a `.env` file (it is git-ignored) with both values:
 
 ```env
 ELEVENLABS_API_KEY=...
+ELEVENLABS_VOICE_ID=...
 ```
 
-Without a key the app uses ThonburianTTS on your machine. The first account to register becomes the admin.
+Without both values the app uses ThonburianTTS on your machine. The first account to register becomes the admin.
 
 Production: `npm run build`, then `npm start`. To move the app to another machine or host it for others, see [DOCKER.md](DOCKER.md).
+
+## Configuration
+
+All settings are optional environment variables, read from `.env` or the shell.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `PORT` | `5173` | Web server port |
+| `SIGNVOICE_HOST` | `127.0.0.1` | Listen address (Docker sets `0.0.0.0`) |
+| `SIGNVOICE_HOME` | `~/.signvoice` | Database, models, caches and Python venv |
+| `SIGNVOICE_AUTH_DB` | `<SIGNVOICE_HOME>/signvoice.db` | Account database (point it at a temp file for tests) |
+| `SIGNVOICE_ADMINS` | empty | Comma-separated usernames that are always admins |
+| `SIGNVOICE_TRUST_PROXY` | off | `1` trusts proxy headers for client IP and HTTPS (Docker behind a tunnel) |
+| `SIGNVOICE_TLS_CERT`, `SIGNVOICE_TLS_KEY` | unset | PEM files to serve HTTPS directly |
+| `SIGNVOICE_ML_PORT` | `8766` | Port of the Python ML service |
+| `SIGNVOICE_PYTHON` | `<SIGNVOICE_HOME>/venv/Scripts/python.exe` | Python used to start the ML service |
+| `OLLAMA_URL` | `http://127.0.0.1:11434` | Ollama server for sentence ordering |
+| `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID` | unset | Both are needed to use ElevenLabs |
+| `ELEVENLABS_MODEL` | `eleven_v3` | ElevenLabs model |
+| `ELEVENLABS_STABILITY` | `1.0` | Voice stability; 1.0 keeps one consistent voice |
 
 ## Tests
 
 ```powershell
-npm test               # unit tests
-npm run test:security  # login, permissions and headers against a running server
-npm run eval:tsl       # recognition accuracy through a real browser
+npm test                          # unit tests: auth, sign segmentation, gestures, sentence repair
+python -m unittest ml/test_db.py  # database unit tests (run with the venv Python)
+npm run test:security             # login, permissions and headers against a running server
+npm run test:browser              # opens the speak and teach views in Chrome or Edge
+npm run test:speech               # Thai and English speech through the speak button
+npm run test:tsl                  # plays a TSL sample clip and expects "สวัสดี"
+npm run eval:tsl                  # recognition accuracy through a real browser
 ```
 
 ## Limitations

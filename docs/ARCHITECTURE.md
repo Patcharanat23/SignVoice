@@ -29,7 +29,7 @@ browser ── JSON ──> server.mjs ── HTTP ──> ml/service.py ── 
    - Resample the active span to 32 frames. Result: a 32 × 266 matrix per sign.
 4. **Classifier (`ml/train_tsl.py`, `SignNet`).** Linear 266→192, three residual depthwise Conv1d blocks (kernel 5), a 2-layer Transformer encoder (4 heads), mean + max pooling, linear output. About 0.86 M parameters, exported to ONNX. A word is accepted only when softmax confidence is at least 0.35.
 5. **Sentence ordering (`server.mjs`).** Thai Sign Language uses a different word order from spoken Thai (`ข้าว ฉัน กิน` → `ฉันกินข้าว`). Qwen3 4B reorders the words with temperature 0.1, then `repairThaiSentence()` in `src/language.js` cleans the result. The user can edit it before speaking.
-6. **Speech.** ElevenLabs with one fixed male voice; repeated sentences come from a cache. Without a key or network, ThonburianTTS runs on the local GPU.
+6. **Speech.** ElevenLabs with the voice set in `ELEVENLABS_VOICE_ID` and fixed voice settings, so every sentence sounds the same; repeated sentences come from a cache. Without these settings or a network, ThonburianTTS runs on the local GPU.
 
 ## Data
 
@@ -58,4 +58,4 @@ Models and caches live next to it under `~/.signvoice/models` and `~/.signvoice/
 | `/login.html` | Everyone |
 | `/?view=speak` | Signed-in users |
 | `/` (teach) | Admins; other users are sent to the speak view |
-| `/admin.html` | Admins: users, statistics, review queue |
+| `/admin.html` | Admins: users, statistics, audit log, review queue |

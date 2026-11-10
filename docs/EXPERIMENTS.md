@@ -93,4 +93,4 @@ Latest run: 22 words, 217 training samples, 44 held out. Held-out accuracy 11.4%
 
 ## Raw results
 
-`docs/tsl-combined-report.json`, `docs/tsl51-report.json`, `docs/tsl51-browser-eval.json`, `docs/llm-eval.json`, `docs/mirror-experiment.json`, `docs/storage-benchmark.json`.
+`docs/tsl-combined-report.json`, `docs/tsl51-report.json`, `docs/tsl51-browser-eval.json`, `docs/llm-eval.json`, `docs/mirror-experiment.json`, `docs/storage-benchmark.json`, `docs/benchmark-Pat_pat.json` (speed on our machine, from `ml/benchmark.py`).
